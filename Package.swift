@@ -27,6 +27,7 @@ let package = Package(
         .target(name: "App", dependencies: [
             "LibDefaults",
             "FeatureHome",
+            "FeatureToolbar",
             "FeatureWelcome",
             .tca
         ]),
@@ -34,7 +35,7 @@ let package = Package(
         .target(name: "LibDefaults", dependencies: []),
 
         .target(name: "FeatureHome", dependencies: [.tca]),
-
+        .target(name: "FeatureToolbar", dependencies: [.tca]),
         .target(name: "FeatureWelcome", dependencies: [
             "LibDefaults",
             .tca

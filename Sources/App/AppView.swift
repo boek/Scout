@@ -9,6 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 import FeatureHome
+import FeatureToolbar
 import FeatureWelcome
 
 public struct AppView: View {
@@ -16,11 +17,15 @@ public struct AppView: View {
 
     public var body: some View {
         WithViewStore(store) { viewStore in
-            HomeView()
-                .sheet(isPresented: viewStore.binding(\.$shouldShowOnboarding)) {
-                    WelcomeView(store: store.welcome)
-                        .interactiveDismissDisabled()
-                }
+            ZStack {
+                HomeView()
+
+            }
+            .safeAreaInset(edge: .bottom) { ToolbarView(store: store.toolbar) }
+            .sheet(isPresented: viewStore.binding(\.$shouldShowOnboarding)) {
+                WelcomeView(store: store.welcome)
+                    .interactiveDismissDisabled()
+            }
         }
     }
 }
