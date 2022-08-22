@@ -8,17 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		D50DB30D28B3045E00E4CED8 /* ScoutApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50DB30C28B3045E00E4CED8 /* ScoutApp.swift */; };
-		D50DB30F28B3045E00E4CED8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50DB30E28B3045E00E4CED8 /* ContentView.swift */; };
 		D50DB31128B3045F00E4CED8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D50DB31028B3045F00E4CED8 /* Assets.xcassets */; };
-		D50DB31428B3045F00E4CED8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D50DB31328B3045F00E4CED8 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D50DB30928B3045E00E4CED8 /* Scout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D50DB30C28B3045E00E4CED8 /* ScoutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoutApp.swift; sourceTree = "<group>"; };
-		D50DB30E28B3045E00E4CED8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D50DB31028B3045F00E4CED8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D50DB31328B3045F00E4CED8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,20 +47,18 @@
 		D50DB30B28B3045E00E4CED8 /* Scout */ = {
 			isa = PBXGroup;
 			children = (
+				D50DB31A28B3046400E4CED8 /* Resources */,
 				D50DB30C28B3045E00E4CED8 /* ScoutApp.swift */,
-				D50DB30E28B3045E00E4CED8 /* ContentView.swift */,
-				D50DB31028B3045F00E4CED8 /* Assets.xcassets */,
-				D50DB31228B3045F00E4CED8 /* Preview Content */,
 			);
 			path = Scout;
 			sourceTree = "<group>";
 		};
-		D50DB31228B3045F00E4CED8 /* Preview Content */ = {
+		D50DB31A28B3046400E4CED8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D50DB31328B3045F00E4CED8 /* Preview Assets.xcassets */,
+				D50DB31028B3045F00E4CED8 /* Assets.xcassets */,
 			);
-			path = "Preview Content";
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,7 +119,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D50DB31428B3045F00E4CED8 /* Preview Assets.xcassets in Resources */,
 				D50DB31128B3045F00E4CED8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,7 +130,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D50DB30F28B3045E00E4CED8 /* ContentView.swift in Sources */,
 				D50DB30D28B3045E00E4CED8 /* ScoutApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,7 +258,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Scout/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = Z88RVG5KD9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -295,7 +287,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Scout/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = Z88RVG5KD9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
