@@ -3,7 +3,12 @@
 
 import PackageDescription
 
-let tca = Target.Dependency.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+extension Target.Dependency {
+    static var tca: Target.Dependency {
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+    }
+}
+
 let package = Package(
     name: "Scout",
     platforms: [.iOS(.v16)],
@@ -12,6 +17,7 @@ let package = Package(
 
         .library(name: "LibDefaults", targets: ["LibDefaults"]),
 
+        .library(name: "FeatureHome", targets: ["FeatureHome"]),
         .library(name: "FeatureWelcome", targets: ["FeatureWelcome"]),
     ],
     dependencies: [
@@ -20,15 +26,18 @@ let package = Package(
     targets: [
         .target(name: "App", dependencies: [
             "LibDefaults",
+            "FeatureHome",
             "FeatureWelcome",
-            tca
+            .tca
         ]),
 
         .target(name: "LibDefaults", dependencies: []),
 
+        .target(name: "FeatureHome", dependencies: [.tca]),
+
         .target(name: "FeatureWelcome", dependencies: [
             "LibDefaults",
-            tca
+            .tca
         ]),
     ]
 )

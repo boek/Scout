@@ -7,6 +7,8 @@
 
 import SwiftUI
 import ComposableArchitecture
+
+import FeatureHome
 import FeatureWelcome
 
 public struct AppView: View {
@@ -14,8 +16,8 @@ public struct AppView: View {
 
     public var body: some View {
         WithViewStore(store) { viewStore in
-            Text(viewStore.shouldShowOnboarding ? "showing" : "seen")
-                .sheet(isPresented: viewStore.binding(get: \.shouldShowOnboarding, send: {_ in .appDelegate(.didFinishLaunching)})) {
+            HomeView()
+                .sheet(isPresented: viewStore.binding(\.$shouldShowOnboarding)) {
                     WelcomeView(store: store.welcome)
                         .interactiveDismissDisabled()
                 }

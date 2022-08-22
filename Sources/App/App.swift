@@ -15,10 +15,11 @@ public typealias AppStore   = Store<AppState, AppAction>
 public typealias AppReducer = Reducer<AppState, AppAction, AppEnvironment>
 
 public struct AppState: Equatable {
-    var shouldShowOnboarding: Bool
+    @BindableState var shouldShowOnboarding: Bool
 }
 
-public enum AppAction {
+public enum AppAction: BindableAction {
+    case binding(BindingAction<AppState>)
     case appDelegate(AppDelegateAction)
     case welcome(WelcomeAction)
 }
@@ -29,13 +30,14 @@ public struct AppEnvironment {
 
 public let appReducerCore = AppReducer { state, action, environment in
     switch action {
+    case .binding: return .none
     case .appDelegate: return .none
     case .welcome(.startBrowsing):
         environment.defaults.userHasSeenOnboarding(true)
         state.shouldShowOnboarding = false
         return .none
     }
-}
+}.binding()
 
 public let appReducer = Reducer.combine(
     appReducerCore,
