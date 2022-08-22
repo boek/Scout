@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		D50DB30D28B3045E00E4CED8 /* ScoutApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50DB30C28B3045E00E4CED8 /* ScoutApp.swift */; };
 		D50DB31128B3045F00E4CED8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D50DB31028B3045F00E4CED8 /* Assets.xcassets */; };
+		D50DB31E28B305A900E4CED8 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = D50DB31D28B305A900E4CED8 /* App */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D50DB30928B3045E00E4CED8 /* Scout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D50DB30C28B3045E00E4CED8 /* ScoutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoutApp.swift; sourceTree = "<group>"; };
 		D50DB31028B3045F00E4CED8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D50DB31B28B304EE00E4CED8 /* Scout */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Scout; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -22,6 +24,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D50DB31E28B305A900E4CED8 /* App in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +36,8 @@
 			children = (
 				D50DB30B28B3045E00E4CED8 /* Scout */,
 				D50DB30A28B3045E00E4CED8 /* Products */,
+				D50DB31C28B305A900E4CED8 /* Frameworks */,
+				D50DB31B28B304EE00E4CED8 /* Scout */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,6 +66,13 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		D50DB31C28B305A900E4CED8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -77,6 +89,9 @@
 			dependencies = (
 			);
 			name = Scout;
+			packageProductDependencies = (
+				D50DB31D28B305A900E4CED8 /* App */,
+			);
 			productName = Scout;
 			productReference = D50DB30928B3045E00E4CED8 /* Scout.app */;
 			productType = "com.apple.product-type.application";
@@ -331,6 +346,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D50DB31D28B305A900E4CED8 /* App */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = App;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D50DB30128B3045E00E4CED8 /* Project object */;
 }

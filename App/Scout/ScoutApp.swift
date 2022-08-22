@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import App
 
 @main
 struct ScoutApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+
     var body: some Scene {
-        WindowGroup {
-            Text("Hello")
-        }
+        BrowserScene()
     }
 }
