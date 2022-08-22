@@ -13,6 +13,6 @@ struct ScoutApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     var body: some Scene {
-        BrowserScene()
+        BrowserScene(store: appDelegate.store)
     }
 }

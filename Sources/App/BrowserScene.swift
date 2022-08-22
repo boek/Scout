@@ -8,10 +8,15 @@
 import SwiftUI
 
 public struct BrowserScene: Scene {
-    public init() {}
+    let store: AppStore
+
+    public init(store: AppStore) {
+        self.store = store
+    }
+
     public var body: some Scene {
         WindowGroup {
-            AppView()
+            AppView(store: store)
         }
     }
 }

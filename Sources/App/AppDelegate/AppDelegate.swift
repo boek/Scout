@@ -9,22 +9,34 @@ import ComposableArchitecture
 import UIKit
 
 typealias AppViewStore = ViewStore<Void, AppDelegateAction>
+typealias AppDelegateReducer = Reducer<AppDelegateState, AppDelegateAction, AppEnvironment>
 
-enum AppDelegateAction {
+struct AppDelegateState {
+    var shouldShowOnboarding: Bool
+}
+
+public enum AppDelegateAction {
     case didFinishLaunching
+}
+
+let appDelegateReducer = AppDelegateReducer { state, action, environment in
+    switch action {
+    case .didFinishLaunching:
+        state.shouldShowOnboarding = !environment.defaults.userHasSeenOnboarding
+        return .none
+    }
 }
 
 
 public class AppDelegate: NSObject, UIApplicationDelegate {
-    let store = AppStore.live
+    public let store = AppStore.live
     private lazy var viewStore = ViewStore(store.stateless.scope(state: {}, action: AppAction.appDelegate))
 
-
-    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    public func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
         viewStore.send(.didFinishLaunching)
         return true
-    }
-    public func applicationDidFinishLaunching(_ application: UIApplication) {
-        viewStore.send(.didFinishLaunching)
     }
 }
