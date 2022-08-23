@@ -19,6 +19,7 @@ let package = Package(
         .library(name: "LibUI", targets: ["LibUI"]),
 
         .library(name: "FeatureHome", targets: ["FeatureHome"]),
+        .library(name: "FeatureSettings", targets: ["FeatureSettings"]),
         .library(name: "FeatureToolbar", targets: ["FeatureToolbar"]),
         .library(name: "FeatureWelcome", targets: ["FeatureWelcome"]),
     ],
@@ -29,6 +30,7 @@ let package = Package(
         .target(name: "App", dependencies: [
             "LibDefaults",
             "FeatureHome",
+            "FeatureSettings",
             "FeatureToolbar",
             "FeatureWelcome",
             .tca
@@ -38,6 +40,10 @@ let package = Package(
         .target(name: "LibUI", dependencies: []),
 
         .target(name: "FeatureHome", dependencies: [
+            "LibUI",
+            .tca
+        ]),
+        .target(name: "FeatureSettings", dependencies: [
             "LibUI",
             .tca
         ]),

@@ -11,6 +11,7 @@ import ComposableArchitecture
 import LibUI
 
 import FeatureHome
+import FeatureSettings
 import FeatureToolbar
 import FeatureWelcome
 
@@ -31,6 +32,9 @@ public struct AppView: View {
             .sheet(isPresented: viewStore.binding(\.$shouldShowOnboarding)) {
                 WelcomeView(store: store.welcome)
                     .interactiveDismissDisabled()
+            }
+            .sheet(isPresented: viewStore.binding(\.$showSettings)) {
+                SettingsView()
             }
         }
     }

@@ -27,11 +27,11 @@ struct URLBar: View {
                 .focused($addressFocusState)
                 .disableAutocorrection(true)
                 .foregroundColor(theme.onBackground)
-                .onSubmit { print("submit") }
+                .onSubmit { viewStore.send(.onSubmit) }
                 .frame(height: 44)
                 .safeAreaInset(edge: .leading) {
                     if !viewStore.urlBarFocused {
-                        Button(action: { print("shield") }) {
+                        Button(action: { viewStore.send(.shieldTapped) }) {
                             Image(systemName: "shield")
                         }
                         .transition(.scale.combined(with: .opacity))
@@ -39,13 +39,12 @@ struct URLBar: View {
                 }
                 .safeAreaInset(edge: .trailing) {
                     if viewStore.urlBarFocused && viewStore.query.isEmpty {
-
                     } else if viewStore.urlBarFocused && !viewStore.query.isEmpty {
-                        Button(action: { print("x") }) {
+                        Button(action: { viewStore.send(.clearTapped, animation: .spring()) }) {
                             Image(systemName: "x.circle.fill")
                         }.transition(.scale.combined(with: .opacity))
-                    } else {
-                        Button(action: { print("reload") }) {
+                    } else if !viewStore.query.isEmpty {
+                        Button(action: { viewStore.send(.reloadTapped) }) {
                             Image(systemName: "arrow.clockwise")
                         }.transition(.scale.combined(with: .opacity))
                     }
@@ -56,10 +55,31 @@ struct URLBar: View {
                         .fill(theme.background)
                         .shadow(radius: 4)
                 )
-                .tint(theme.onBackground)
+                .safeAreaInset(edge: .leading) {
+                    if viewStore.urlBarFocused {
+                        Button(action: { viewStore.send(.closeTapped, animation: .spring()) }) {
+                            Image(systemName: "chevron.left")
+                        }.transition(.scale.combined(with: .opacity))
+                    }
+                }
+                .safeAreaInset(edge: .trailing) {
+                    if viewStore.showMenu {
+                        Menu {
+                            Button(action: { viewStore.send(.helpTapped) }) {
+                                Label("Help", systemImage: "questionmark.circle")
+                            }
+                            Divider()
+                            Button(action: { viewStore.send(.settingsTapped) }) {
+                                Label("Settings", systemImage: "gearshape.fill")
+                            }
+                        } label: {
+                            Image(systemName: "line.3.horizontal")
+                        }.transition(.scale.combined(with: .opacity))
+                    }
+                }
                 .onChange(of: self.addressFocusState) { viewStore.send(.set(\.$urlBarFocused, $0), animation: .spring()) }
                 .onChange(of: viewStore.urlBarFocused) { self.addressFocusState = $0 }
-
+                .tint(theme.onBackground)
         }
     }
 }

@@ -13,13 +13,15 @@ public typealias ToolbarReducer = Reducer<ToolbarState, ToolbarAction, ToolbarEn
 public struct ToolbarState: Equatable {
     @BindableState public var query: String
     @BindableState public var urlBarFocused: Bool
+    @BindableState public var showMenu: Bool
 }
 
 public extension ToolbarState {
     static var initial: ToolbarState {
         .init(
             query: "",
-            urlBarFocused: false
+            urlBarFocused: false,
+            showMenu: true
         )
     }
 }
@@ -27,6 +29,13 @@ public extension ToolbarState {
 public enum ToolbarAction: BindableAction {
     case binding(BindingAction<ToolbarState>)
     case onAppear
+    case onSubmit
+    case clearTapped
+    case reloadTapped
+    case shieldTapped
+    case helpTapped
+    case settingsTapped
+    case closeTapped
 }
 
 public struct ToolbarEnvironment {
@@ -38,6 +47,22 @@ public let toolbarReducer = ToolbarReducer { state, action, environment in
     case .binding: return .none
     case .onAppear:
         state.urlBarFocused = true
+        return .none
+    case .onSubmit:
+        return .none
+    case .clearTapped:
+        state.query = ""
+        return .none
+    case .reloadTapped:
+        return .none
+    case .shieldTapped:
+        return .none
+    case .helpTapped:
+        return .none
+    case .settingsTapped:
+        return .none
+    case .closeTapped:
+        state.urlBarFocused = false
         return .none
     }
 }.binding()

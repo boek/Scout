@@ -17,6 +17,7 @@ public typealias AppReducer = Reducer<AppState, AppAction, AppEnvironment>
 
 public struct AppState: Equatable {
     @BindableState var shouldShowOnboarding: Bool
+    @BindableState var showSettings: Bool
     var toolbar: ToolbarState
 }
 
@@ -35,6 +36,9 @@ public let appReducerCore = AppReducer { state, action, environment in
     switch action {
     case .binding: return .none
     case .appDelegate: return .none
+    case .toolbar(.settingsTapped):
+        state.showSettings = true
+        return .none
     case .toolbar: return .none
     case .welcome(.startBrowsing):
         environment.defaults.userHasSeenOnboarding(true)
@@ -77,6 +81,7 @@ extension AppState {
     static var initial: AppState {
         .init(
             shouldShowOnboarding: false,
+            showSettings: false,
             toolbar: .initial
         )
     }
