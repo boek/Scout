@@ -15,6 +15,15 @@ import FeatureSettings
 import FeatureToolbar
 import FeatureWelcome
 
+extension FeatureToolbar.ToolbarPosition {
+    var edge: VerticalEdge {
+        switch self {
+        case .top: return .top
+        case .bottom: return .bottom
+        }
+    }
+}
+
 public struct AppView: View {
     let store: AppStore
 
@@ -25,7 +34,7 @@ public struct AppView: View {
                 HomeView()
 
             }
-            .safeAreaInset(edge: .top) {
+            .safeAreaInset(edge: viewStore.toolbar.toolbarPosition.edge) {
                 ToolbarView(store: store.toolbar)
                     .padding()
             }
@@ -34,7 +43,7 @@ public struct AppView: View {
                     .interactiveDismissDisabled()
             }
             .sheet(isPresented: viewStore.binding(\.$showSettings)) {
-                SettingsView()
+                SettingsView(store: store.settings)
             }
         }
     }

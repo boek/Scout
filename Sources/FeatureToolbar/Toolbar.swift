@@ -10,10 +10,15 @@ import ComposableArchitecture
 public typealias ToolbarStore   = Store<ToolbarState, ToolbarAction>
 public typealias ToolbarReducer = Reducer<ToolbarState, ToolbarAction, ToolbarEnvironment>
 
+public enum ToolbarPosition {
+    case top, bottom
+}
+
 public struct ToolbarState: Equatable {
     @BindableState public var query: String
     @BindableState public var urlBarFocused: Bool
     @BindableState public var showMenu: Bool
+    public var toolbarPosition: ToolbarPosition
 }
 
 public extension ToolbarState {
@@ -21,7 +26,8 @@ public extension ToolbarState {
         .init(
             query: "",
             urlBarFocused: false,
-            showMenu: true
+            showMenu: true,
+            toolbarPosition: .top
         )
     }
 }
