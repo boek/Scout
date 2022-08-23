@@ -8,6 +8,8 @@
 import SwiftUI
 import ComposableArchitecture
 
+import LibUI
+
 import FeatureHome
 import FeatureToolbar
 import FeatureWelcome
@@ -18,10 +20,14 @@ public struct AppView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             ZStack {
+                BackgroundView().edgesIgnoringSafeArea(.all)
                 HomeView()
 
             }
-            .safeAreaInset(edge: .bottom) { ToolbarView(store: store.toolbar) }
+            .safeAreaInset(edge: .top) {
+                ToolbarView(store: store.toolbar)
+                    .padding()
+            }
             .sheet(isPresented: viewStore.binding(\.$shouldShowOnboarding)) {
                 WelcomeView(store: store.welcome)
                     .interactiveDismissDisabled()

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LibUI
 
 public struct HomeView: View {
     public init() {}
@@ -18,7 +19,7 @@ public struct HomeView: View {
                 Text("0 trackers blocked so far")
                 Button(action: {}) {
                     Text("Share")
-                }
+                }.buttonStyle(.secondary)
             }
         }
     }

@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import LibUI
 
 public struct WelcomeView: View {
     public let store: WelcomeStore
@@ -30,7 +31,7 @@ public struct WelcomeView: View {
                 Spacer()
                 Button(action: { a.send(.startBrowsing) }) {
                     Text("Start browsing")
-                }
+                }.buttonStyle(.primary)
             }
         }
     }

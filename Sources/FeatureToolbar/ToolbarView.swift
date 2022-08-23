@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import LibUI
 
 public struct ToolbarView: View {
     let store: ToolbarStore
@@ -17,13 +18,18 @@ public struct ToolbarView: View {
 
     public var body: some View {
         WithViewStore(store) { viewStore in
-            TextField("Query", text: viewStore.binding(\.$query), axis: .vertical)
+            URLBar(store: store)
+                .onAppear { viewStore.send(.onAppear) }
         }
     }
 }
 
 struct ToolbarView_Previews: PreviewProvider {
     static var previews: some View {
-        ToolbarView(store: .init(initialState: .initial, reducer: .empty, environment: ()))
+
+        BackgroundView()
+            .edgesIgnoringSafeArea(.all)
+            .overlay(ToolbarView(store: .preview).padding())
+
     }
 }
