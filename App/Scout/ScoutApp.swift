@@ -6,13 +6,20 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 import App
 
 @main
 struct ScoutApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    let store: AppStore = AppStore.live
+    @ObservedObject var viewStore: ViewStore<Void, LifecycleAction>
+
+    init() {
+        self.viewStore = ViewStore(store.lifecycle.stateless)
+        viewStore.send(.initialize)
+    }
 
     var body: some Scene {
-        BrowserScene(store: appDelegate.store)
+        BrowserScene(store: store)
     }
 }

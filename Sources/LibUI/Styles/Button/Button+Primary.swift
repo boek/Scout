@@ -20,7 +20,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
         var body: some View {
             configuration.label
                 .bold()
-                .padding()
+                .padding(12)
                 .background(configuration.isPressed ? theme.primaryVariant : theme.primary)
                 .foregroundColor(theme.onPrimary)
                 .cornerRadius(5)

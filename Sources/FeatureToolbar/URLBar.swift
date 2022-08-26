@@ -18,9 +18,10 @@ struct URLBar: View {
 
     var body: some View {
         WithViewStore(store) { viewStore in
-            TextField(
-                "Search or enter address",
-                text: viewStore.binding(\.$query)
+            AutocompleteTextfield(
+                placeholder: "Search or enter address",
+                text: viewStore.binding(\.$query).animation(.easeOut(duration: 0.2)),
+                autocompleteValue: "https://google.com"
             )
                 .autocapitalization(.none)
                 .keyboardType(.webSearch)

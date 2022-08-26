@@ -18,6 +18,7 @@ public struct ToolbarState: Equatable {
     @BindableState public var query: String
     @BindableState public var urlBarFocused: Bool
     @BindableState public var showMenu: Bool
+    public var autocompletion: String?
     public var toolbarPosition: ToolbarPosition
 }
 
@@ -27,6 +28,7 @@ public extension ToolbarState {
             query: "",
             urlBarFocused: false,
             showMenu: true,
+            autocompletion: nil,
             toolbarPosition: .top
         )
     }

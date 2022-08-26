@@ -9,6 +9,8 @@ import ComposableArchitecture
 
 import LibDefaults
 
+import FeatureLock
+import FeatureSearch
 import FeatureSettings
 import FeatureToolbar
 import FeatureWelcome
@@ -35,6 +37,8 @@ extension FeatureToolbar.ToolbarPosition {
 public struct AppState: Equatable {
     @BindableState var shouldShowOnboarding: Bool
     @BindableState var showSettings: Bool
+    var lock: LockState
+    var search: SearchState
     var toolbar: ToolbarState
 
     var settings: SettingsState {
@@ -51,8 +55,10 @@ public struct AppState: Equatable {
 
 public enum AppAction: BindableAction {
     case binding(BindingAction<AppState>)
-    case appDelegate(AppDelegateAction)
+    case lifecycle(LifecycleAction)
+    case lock(LockAction)
     case welcome(WelcomeAction)
+    case search(SearchAction)
     case toolbar(ToolbarAction)
     case settings(SettingsAction)
 }
@@ -64,7 +70,8 @@ public struct AppEnvironment {
 public let appReducerCore = AppReducer { state, action, environment in
     switch action {
     case .binding: return .none
-    case .appDelegate: return .none
+    case .lifecycle: return .none
+    case .lock: return .none
     case .toolbar(.settingsTapped):
         state.showSettings = true
         return .none
@@ -79,25 +86,27 @@ public let appReducerCore = AppReducer { state, action, environment in
 
 public let appReducer = Reducer.combine(
     appReducerCore,
-    appDelegateReducer.pullback(
-        state: \.appDelegateState,
-        action: /AppAction.appDelegate,
+    appLifecycleReducer.pullback(
+        state: \.lifecycle,
+        action: /AppAction.lifecycle,
         environment: { $0 }
     ),
-    toolbarReducer.pullback(
-        state: \.toolbar,
-        action: /AppAction.toolbar,
-        environment: \.toolbar
-    ),
+    searchReducer.pullback(
+        state: \.search,
+        action: /AppAction.search,
+        environment: { _ in .init() }),
     settingsReducer.pullback(
         state: \.settings,
         action: /AppAction.settings,
-        environment: { _ in .init() }
-    )
+        environment: { _ in .init() }),
+    toolbarReducer.pullback(
+        state: \.toolbar,
+        action: /AppAction.toolbar,
+        environment: \.toolbar)
 )
 
 extension AppStore {
-    static var live: AppStore {
+    public static var live: AppStore {
         .init(
             initialState: .initial,
             reducer: appReducer.debug(),
@@ -105,16 +114,28 @@ extension AppStore {
         )
     }
 
-    var welcome: WelcomeStore {
-        scope(state: { _ in () }, action: AppAction.welcome)
+    public var lifecycle: LifecycleStore {
+        scope(state: \.lifecycle, action: AppAction.lifecycle)
+    }
+
+    var lock: LockStore {
+        scope(state: \.lock, action: AppAction.lock)
+    }
+
+    var search: SearchStore {
+        scope(state: \.search, action: AppAction.search)
+    }
+
+    var settings: SettingsStore {
+        scope(state: \.settings, action: AppAction.settings)
     }
 
     var toolbar: ToolbarStore {
         scope(state: \.toolbar, action: AppAction.toolbar)
     }
 
-    var settings: SettingsStore {
-        scope(state: \.settings, action: AppAction.settings)
+    var welcome: WelcomeStore {
+        scope(state: { _ in () }, action: AppAction.welcome)
     }
 }
 
@@ -123,6 +144,8 @@ extension AppState {
         .init(
             shouldShowOnboarding: false,
             showSettings: false,
+            lock: .initial,
+            search: .initial,
             toolbar: .initial
         )
     }
@@ -141,9 +164,9 @@ extension AppEnvironment {
 }
 
 extension AppState {
-    var appDelegateState: AppDelegateState {
+    var lifecycle: LifecycleState {
         get {
-            AppDelegateState(shouldShowOnboarding: shouldShowOnboarding)
+            .init(shouldShowOnboarding: shouldShowOnboarding)
         }
         set {
             shouldShowOnboarding = newValue.shouldShowOnboarding

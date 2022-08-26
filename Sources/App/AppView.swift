@@ -11,6 +11,8 @@ import ComposableArchitecture
 import LibUI
 
 import FeatureHome
+import FeatureLock
+import FeatureSearch
 import FeatureSettings
 import FeatureToolbar
 import FeatureWelcome
@@ -32,7 +34,10 @@ public struct AppView: View {
             ZStack {
                 BackgroundView().edgesIgnoringSafeArea(.all)
                 HomeView()
-
+                if !viewStore.toolbar.query.isEmpty {
+                    SearchView(store: store.search)
+                        .background(Material.thin)
+                }
             }
             .safeAreaInset(edge: viewStore.toolbar.toolbarPosition.edge) {
                 ToolbarView(store: store.toolbar)
@@ -45,6 +50,7 @@ public struct AppView: View {
             .sheet(isPresented: viewStore.binding(\.$showSettings)) {
                 SettingsView(store: store.settings)
             }
+            .overlay(LockView(store: store.lock).edgesIgnoringSafeArea(.all))
         }
     }
 }
