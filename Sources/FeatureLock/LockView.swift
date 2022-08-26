@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import LibUI
 
 public struct LockView: View {
     let store: LockStore
@@ -18,7 +19,8 @@ public struct LockView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             if viewStore.status == .locked {
-                Color.gray
+                BackgroundView()
+                    .onAppear { viewStore.send(.attemptUnlock) }
             }
         }
     }

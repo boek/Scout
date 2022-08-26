@@ -27,10 +27,37 @@ public enum LockAction {
 
 public struct LockEnvironment {
     public var biometrics: Biometrics
+
+    public init(
+        biometrics: Biometrics
+    ) {
+        self.biometrics = biometrics
+    }
 }
 
 public let lockReducer = LockReducer { state, action, env in
-    return .none
+    switch action {
+    case .attemptUnlock:
+        if state.status == .locked {
+            if state.isEnabled {
+                return .task {
+                    let result = try await env.biometrics.authenticate()
+                    return .unlocked
+                } catch: { error in
+                    return .unlocked
+                }
+            }
+        }
+        state.status = .unlocked
+        return .none
+    case .lock:
+        state.status = .locked
+        return .none
+    case .cancel: return .none
+    case .unlocked:
+        state.status = .unlocked
+        return .none
+    }
 }
 
 public extension LockState {

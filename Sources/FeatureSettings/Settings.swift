@@ -17,11 +17,14 @@ public enum ToolbarPosition {
 
 public struct SettingsState: Equatable {
     @BindableState public var toolbarPosition: ToolbarPosition
+    @BindableState public var lockEnabled: Bool
 
     public init(
-        toolbarPosition: ToolbarPosition
+        toolbarPosition: ToolbarPosition,
+        lockEnabled: Bool
     ) {
         self.toolbarPosition = toolbarPosition
+        self.lockEnabled = lockEnabled
     }
 }
 
@@ -40,7 +43,8 @@ public let settingsReducer = SettingsReducer { state, action, env in
 public extension SettingsState {
     static var initial: SettingsState {
         .init(
-            toolbarPosition: .top
+            toolbarPosition: .top,
+            lockEnabled: false
         )
     }
 }

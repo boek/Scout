@@ -13,9 +13,19 @@ public enum BiometricType {
 }
 
 public struct Biometrics {
-    var isEnabled: () -> Bool
-    var biometricType: BiometricType
-    var authenticate: () async throws -> Bool
+    public var isEnabled: () -> Bool
+    public var biometricType: BiometricType
+    public var authenticate: () async throws -> Bool
+
+    public init(
+        isEnabled: @escaping () -> Bool,
+        biometricType: BiometricType,
+        authenticate: @escaping () async throws -> Bool
+    ) {
+        self.isEnabled = isEnabled
+        self.biometricType = biometricType
+        self.authenticate = authenticate
+    }
 }
 
 
@@ -33,10 +43,11 @@ public extension Biometrics {
     static var live: Biometrics {
         let context = LAContext()
         return Biometrics(
-            isEnabled: { context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) },
+            isEnabled: { context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) },
             biometricType: .init(context.biometryType),
             authenticate: {
-                try await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: context.localizedReason)
+                context.localizedReason = "We need this"
+                return try await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "We need this")
             }
         )
     }

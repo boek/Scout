@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 
+import LibBiometrics
 import LibDefaults
 
 import FeatureLock
@@ -44,11 +45,13 @@ public struct AppState: Equatable {
     var settings: SettingsState {
         get {
             .init(
-                toolbarPosition: toolbar.toolbarPosition.settingsPosition
+                toolbarPosition: toolbar.toolbarPosition.settingsPosition,
+                lockEnabled: lock.isEnabled
             )
         }
         set {
             toolbar.toolbarPosition = .init(newValue.toolbarPosition)
+            lock.isEnabled = newValue.lockEnabled
         }
     }
 }
@@ -64,12 +67,18 @@ public enum AppAction: BindableAction {
 }
 
 public struct AppEnvironment {
+    let biometrics: Biometrics
     let defaults: Defaults
 }
 
 public let appReducerCore = AppReducer { state, action, environment in
     switch action {
     case .binding: return .none
+    case .lifecycle(.active): return .none
+    case .lifecycle(.inactive):
+        return .run { send in
+            await send (.lock(.lock))
+        }
     case .lifecycle: return .none
     case .lock: return .none
     case .toolbar(.settingsTapped):
@@ -86,10 +95,15 @@ public let appReducerCore = AppReducer { state, action, environment in
 
 public let appReducer = Reducer.combine(
     appReducerCore,
-    appLifecycleReducer.pullback(
+    lifecycleReducer.pullback(
         state: \.lifecycle,
         action: /AppAction.lifecycle,
         environment: { $0 }
+    ),
+    lockReducer.pullback(
+        state: \.lock,
+        action: /AppAction.lock,
+        environment: \.lock
     ),
     searchReducer.pullback(
         state: \.search,
@@ -114,7 +128,7 @@ extension AppStore {
         )
     }
 
-    public var lifecycle: LifecycleStore {
+    var lifecycle: LifecycleStore {
         scope(state: \.lifecycle, action: AppAction.lifecycle)
     }
 
@@ -154,8 +168,13 @@ extension AppState {
 extension AppEnvironment {
     static var live: AppEnvironment {
         .init(
+            biometrics: .live,
             defaults: .live
         )
+    }
+
+    var lock: LockEnvironment {
+        .init(biometrics: biometrics)
     }
 
     var toolbar: ToolbarEnvironment {
@@ -166,9 +185,13 @@ extension AppEnvironment {
 extension AppState {
     var lifecycle: LifecycleState {
         get {
-            .init(shouldShowOnboarding: shouldShowOnboarding)
+            .init(
+                shouldLock: lock.isEnabled,
+                shouldShowOnboarding: shouldShowOnboarding
+            )
         }
         set {
+            lock.isEnabled = newValue.shouldLock
             shouldShowOnboarding = newValue.shouldShowOnboarding
         }
     }

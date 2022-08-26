@@ -78,7 +78,7 @@ public struct SettingsView: View {
                             }
                         }
                         Toggle("Block Web fonts", isOn: .constant(true))
-                        Toggle("Use Face ID to unlock app", isOn: .constant(true))
+                        Toggle("Use Face ID to unlock app", isOn: viewStore.binding(\.$lockEnabled))
                     }
 
                     Section {

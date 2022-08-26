@@ -32,6 +32,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "App", dependencies: [
+            "LibBiometrics",
             "LibDefaults",
             "FeatureHome",
             "FeatureLock",
