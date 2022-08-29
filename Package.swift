@@ -24,6 +24,7 @@ let package = Package(
         .library(name: "FeatureLock", targets: ["FeatureLock"]),
         .library(name: "FeatureSearch", targets: ["FeatureSearch"]),
         .library(name: "FeatureSettings", targets: ["FeatureSettings"]),
+        .library(name: "FeatureTips", targets: ["FeatureTips"]),
         .library(name: "FeatureToolbar", targets: ["FeatureToolbar"]),
         .library(name: "FeatureWelcome", targets: ["FeatureWelcome"]),
     ],
@@ -62,6 +63,10 @@ let package = Package(
             .tca
         ]),
         .target(name: "FeatureSettings", dependencies: [
+            "LibUI",
+            .tca
+        ]),
+        .target(name: "FeatureTips", dependencies: [
             "LibUI",
             .tca
         ]),

@@ -78,7 +78,9 @@ struct URLBar: View {
                         }.transition(.scale.combined(with: .opacity))
                     }
                 }
-                .onChange(of: self.addressFocusState) { viewStore.send(.set(\.$urlBarFocused, $0)) }
+                .onChange(of: self.addressFocusState) {
+                    viewStore.send(.set(\.$urlBarFocused, $0), animation: .spring())
+                }
                 .onChange(of: viewStore.urlBarFocused) { self.addressFocusState = $0 }
                 .tint(theme.onBackground)
         }
