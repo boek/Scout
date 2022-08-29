@@ -16,10 +16,12 @@ let package = Package(
         .library(name: "App", targets: ["App"]),
 
         .library(name: "LibBiometrics", targets: ["LibBiometrics"]),
+        .library(name: "LibEngine", targets: ["LibEngine"]),
         .library(name: "LibDefaults", targets: ["LibDefaults"]),
         .library(name: "LibSearch", targets: ["LibSearch"]),
         .library(name: "LibUI", targets: ["LibUI"]),
 
+        .library(name: "FeatureBrowser", targets: ["FeatureBrowser"]),
         .library(name: "FeatureHome", targets: ["FeatureHome"]),
         .library(name: "FeatureLock", targets: ["FeatureLock"]),
         .library(name: "FeatureSearch", targets: ["FeatureSearch"]),
@@ -35,6 +37,9 @@ let package = Package(
         .target(name: "App", dependencies: [
             "LibBiometrics",
             "LibDefaults",
+            "LibEngine",
+            "LibSearch",
+            "FeatureBrowser",
             "FeatureHome",
             "FeatureLock",
             "FeatureSearch",
@@ -45,10 +50,15 @@ let package = Package(
         ]),
 
         .target(name: "LibBiometrics", dependencies: []),
+        .target(name: "LibEngine", dependencies: []),
         .target(name: "LibDefaults", dependencies: []),
         .target(name: "LibSearch", dependencies: []),
         .target(name: "LibUI", dependencies: []),
 
+        .target(name: "FeatureBrowser", dependencies: [
+            "LibEngine",
+            .tca
+        ]),
         .target(name: "FeatureHome", dependencies: [
             "LibUI",
             .tca

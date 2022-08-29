@@ -10,6 +10,7 @@ import ComposableArchitecture
 
 import LibUI
 
+import FeatureBrowser
 import FeatureHome
 import FeatureLock
 import FeatureSearch
@@ -34,14 +35,15 @@ public struct AppView: View {
             ZStack {
                 BackgroundView().edgesIgnoringSafeArea(.all)
                 HomeView()
-                if !viewStore.toolbar.query.isEmpty {
+                BrowserView(store: store.browser)
+                if viewStore.toolbar.urlBarFocused && !viewStore.toolbar.query.isEmpty {
                     SearchView(store: store.search)
                         .background(Material.thin)
                 }
             }
             .safeAreaInset(edge: viewStore.toolbar.toolbarPosition.edge) {
                 ToolbarView(store: store.toolbar)
-                    .padding()
+                    .padding(8)
             }
             .sheet(isPresented: viewStore.binding(\.$shouldShowOnboarding)) {
                 WelcomeView(store: store.welcome)

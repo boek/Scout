@@ -64,7 +64,7 @@ struct URLBar: View {
                     }
                 }
                 .safeAreaInset(edge: .trailing) {
-                    if viewStore.showMenu {
+                    if viewStore.query.isEmpty {
                         Menu {
                             Button(action: { viewStore.send(.helpTapped) }) {
                                 Label("Help", systemImage: "questionmark.circle")

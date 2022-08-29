@@ -9,7 +9,10 @@ import ComposableArchitecture
 
 import LibBiometrics
 import LibDefaults
+import LibEngine
+import LibSearch
 
+import FeatureBrowser
 import FeatureLock
 import FeatureSearch
 import FeatureSettings
@@ -38,6 +41,7 @@ extension FeatureToolbar.ToolbarPosition {
 public struct AppState: Equatable {
     @BindableState var shouldShowOnboarding: Bool
     @BindableState var showSettings: Bool
+    var browser: BrowserState
     var lock: LockState
     var search: SearchState
     var toolbar: ToolbarState
@@ -59,6 +63,7 @@ public struct AppState: Equatable {
 public enum AppAction: BindableAction {
     case binding(BindingAction<AppState>)
     case lifecycle(LifecycleAction)
+    case browser(BrowserAction)
     case lock(LockAction)
     case welcome(WelcomeAction)
     case search(SearchAction)
@@ -69,6 +74,7 @@ public enum AppAction: BindableAction {
 public struct AppEnvironment {
     let biometrics: Biometrics
     let defaults: Defaults
+    let engine: Engine
 }
 
 public let appReducerCore = AppReducer { state, action, environment in
@@ -80,7 +86,15 @@ public let appReducerCore = AppReducer { state, action, environment in
             await send (.lock(.lock))
         }
     case .lifecycle: return .none
+    case .browser: return .none
     case .lock: return .none
+    case .toolbar(.onSubmit):
+        var url = state.toolbar.query.asURL //?? state.searchEngine?.queryUrl(query)
+        if let url = url {
+            let request = URLRequest(url: url)
+            environment.engine.dispatch(.load(request))
+        }
+        return .none
     case .toolbar(.settingsTapped):
         state.showSettings = true
         return .none
@@ -99,6 +113,11 @@ public let appReducer = Reducer.combine(
         state: \.lifecycle,
         action: /AppAction.lifecycle,
         environment: { $0 }
+    ),
+    browserReducer.pullback(
+        state: \.browser,
+        action: /AppAction.browser,
+        environment: \.browser
     ),
     lockReducer.pullback(
         state: \.lock,
@@ -132,6 +151,10 @@ extension AppStore {
         scope(state: \.lifecycle, action: AppAction.lifecycle)
     }
 
+    var browser: BrowserStore {
+        scope(state: \.browser, action: AppAction.browser)
+    }
+
     var lock: LockStore {
         scope(state: \.lock, action: AppAction.lock)
     }
@@ -158,6 +181,7 @@ extension AppState {
         .init(
             shouldShowOnboarding: false,
             showSettings: false,
+            browser: .inert,
             lock: .initial,
             search: .initial,
             toolbar: .initial
@@ -169,8 +193,13 @@ extension AppEnvironment {
     static var live: AppEnvironment {
         .init(
             biometrics: .live,
-            defaults: .live
+            defaults: .live,
+            engine: .system
         )
+    }
+
+    var browser: BrowserEnvironment {
+        .init(engine: engine)
     }
 
     var lock: LockEnvironment {
