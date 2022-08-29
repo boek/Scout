@@ -20,6 +20,9 @@ public struct ToolbarView: View {
         WithViewStore(store) { viewStore in
             URLBar(store: store)
                 .onAppear { viewStore.send(.onAppear) }
+                .padding(.horizontal)
+                .padding(.bottom, 8)
+                .background(Material.thin)
         }
     }
 }

@@ -92,7 +92,7 @@ class SystemWebViewController: NSObject {
         let view = WKWebView()
         view.navigationDelegate = self
         view.allowsBackForwardNavigationGestures = true
-        view.scrollView.contentInsetAdjustmentBehavior = .never
+        view.scrollView.contentInsetAdjustmentBehavior = .automatic
         view.allowsLinkPreview = true
         view.scrollView.clipsToBounds = false
 

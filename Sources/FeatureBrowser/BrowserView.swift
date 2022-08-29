@@ -22,7 +22,8 @@ public struct BrowserView: View {
             case.inert:
                 Color.clear
                     .onAppear { viewStore.send(.start) }
-            case .loaded(let engineViewFactory): WebView(engineViewFactory: engineViewFactory)
+            case .loaded(let engineViewFactory):
+                WebView(engineViewFactory: engineViewFactory)
             }
         }
     }

@@ -58,7 +58,7 @@ struct URLBar: View {
                 )
                 .safeAreaInset(edge: .leading) {
                     if viewStore.urlBarFocused {
-                        Button(action: { viewStore.send(.closeTapped, animation: .spring()) }) {
+                        Button(action: { viewStore.send(.closeTapped) }) {
                             Image(systemName: "chevron.left")
                         }.transition(.scale.combined(with: .opacity))
                     }
@@ -79,7 +79,7 @@ struct URLBar: View {
                     }
                 }
                 .onChange(of: self.addressFocusState) {
-                    viewStore.send(.set(\.$urlBarFocused, $0), animation: .spring())
+                    viewStore.send(.set(\.$urlBarFocused, $0), animation: .easeIn(duration: 0.25))
                 }
                 .onChange(of: viewStore.urlBarFocused) { self.addressFocusState = $0 }
                 .tint(theme.onBackground)

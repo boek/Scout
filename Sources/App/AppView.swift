@@ -38,12 +38,11 @@ public struct AppView: View {
                 BrowserView(store: store.browser)
                 if viewStore.toolbar.urlBarFocused && !viewStore.toolbar.query.isEmpty {
                     SearchView(store: store.search)
-                        .background(Material.thin)
+                        .background(Material.bar)
                 }
             }
-            .safeAreaInset(edge: viewStore.toolbar.toolbarPosition.edge) {
+            .safeAreaInset(edge: viewStore.toolbar.toolbarPosition.edge, spacing: 0) {
                 ToolbarView(store: store.toolbar)
-                    .padding(8)
             }
             .sheet(isPresented: viewStore.binding(\.$shouldShowOnboarding)) {
                 WelcomeView(store: store.welcome)
