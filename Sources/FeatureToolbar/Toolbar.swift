@@ -15,6 +15,7 @@ public enum ToolbarPosition {
 }
 
 public struct ToolbarState: Equatable {
+    public var isCollapsed: Bool
     @BindableState public var query: String
     @BindableState public var urlBarFocused: Bool
     public var autocompletion: String?
@@ -24,6 +25,7 @@ public struct ToolbarState: Equatable {
 public extension ToolbarState {
     static var initial: ToolbarState {
         .init(
+            isCollapsed: false,
             query: "",
             urlBarFocused: false,
             autocompletion: nil,

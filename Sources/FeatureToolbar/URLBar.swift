@@ -63,21 +63,6 @@ struct URLBar: View {
                         }.transition(.scale.combined(with: .opacity))
                     }
                 }
-                .safeAreaInset(edge: .trailing) {
-                    if viewStore.query.isEmpty {
-                        Menu {
-                            Button(action: { viewStore.send(.helpTapped) }) {
-                                Label("Help", systemImage: "questionmark.circle")
-                            }
-                            Divider()
-                            Button(action: { viewStore.send(.settingsTapped) }) {
-                                Label("Settings", systemImage: "gearshape.fill")
-                            }
-                        } label: {
-                            Image(systemName: "line.3.horizontal")
-                        }.transition(.scale.combined(with: .opacity))
-                    }
-                }
                 .onChange(of: self.addressFocusState) {
                     viewStore.send(.set(\.$urlBarFocused, $0), animation: .easeIn(duration: 0.25))
                 }

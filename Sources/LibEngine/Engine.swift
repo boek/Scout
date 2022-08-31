@@ -22,6 +22,11 @@ public struct EngineViewFactory: Equatable {
     }
 }
 
+public enum EngineScrollState {
+    case inert
+    case scrolling(start: CGPoint, current: CGPoint)
+}
+
 public struct NavigationState {
     var canGoBack: Bool
     var canGoForward: Bool
@@ -89,7 +94,12 @@ class SystemWebViewController: NSObject {
     private var subscriptions = Set<AnyCancellable>()
 
     lazy var webView: WKWebView = {
-        let view = WKWebView()
+        let configuration = WKWebViewConfiguration()
+        configuration.allowsInlineMediaPlayback = true
+        configuration.websiteDataStore = .nonPersistent()
+
+        let view = WKWebView(frame: .zero, configuration: configuration)
+        view.scrollView.delegate = self
         view.navigationDelegate = self
         view.allowsBackForwardNavigationGestures = true
         view.scrollView.contentInsetAdjustmentBehavior = .automatic
@@ -124,4 +134,22 @@ extension SystemWebViewController: WKNavigationDelegate {
 
 extension SystemWebViewController: WKUIDelegate {
 
+}
+
+extension SystemWebViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset)
+    }
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+
+    }
+
+    func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
 }
