@@ -48,6 +48,11 @@ public struct AppView: View {
             .safeAreaInset(edge: viewStore.toolbar.toolbarPosition.edge, spacing: 0) {
                 ToolbarView(store: store.toolbar)
             }
+            .safeAreaInset(edge: .bottom) {
+                if viewStore.showBrowser {
+                    BottomToolbarView(store: store.toolbar)
+                }
+            }
             .sheet(isPresented: viewStore.binding(\.$shouldShowOnboarding)) {
                 WelcomeView(store: store.welcome)
                     .interactiveDismissDisabled()
