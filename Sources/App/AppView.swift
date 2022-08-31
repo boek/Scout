@@ -35,7 +35,11 @@ public struct AppView: View {
             ZStack {
                 BackgroundView().edgesIgnoringSafeArea(.all)
                 HomeView()
-                BrowserView(store: store.browser)
+
+                if viewStore.showBrowser {
+                    BrowserView(store: store.browser)
+                        .zIndex(1)
+                }
                 if viewStore.toolbar.urlBarFocused && !viewStore.toolbar.query.isEmpty {
                     SearchView(store: store.search)
                         .background(Material.bar)

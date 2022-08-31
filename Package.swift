@@ -16,9 +16,12 @@ let package = Package(
         .library(name: "App", targets: ["App"]),
 
         .library(name: "LibBiometrics", targets: ["LibBiometrics"]),
+        .library(name: "LibCrash", targets: ["LibCrash"]),
         .library(name: "LibEngine", targets: ["LibEngine"]),
+        .library(name: "LibExperiments", targets: ["LibExperiments"]),
         .library(name: "LibDefaults", targets: ["LibDefaults"]),
         .library(name: "LibSearch", targets: ["LibSearch"]),
+        .library(name: "LibTelemetry", targets: ["LibTelemetry"]),
         .library(name: "LibUI", targets: ["LibUI"]),
 
         .library(name: "FeatureBrowser", targets: ["FeatureBrowser"]),
@@ -36,9 +39,12 @@ let package = Package(
     targets: [
         .target(name: "App", dependencies: [
             "LibBiometrics",
+            "LibCrash",
             "LibDefaults",
             "LibEngine",
+            "LibExperiments",
             "LibSearch",
+            "LibTelemetry",
             "FeatureBrowser",
             "FeatureHome",
             "FeatureLock",
@@ -50,9 +56,12 @@ let package = Package(
         ]),
 
         .target(name: "LibBiometrics", dependencies: []),
+        .target(name: "LibCrash", dependencies: []),
         .target(name: "LibEngine", dependencies: []),
+        .target(name: "LibExperiments", dependencies: []),
         .target(name: "LibDefaults", dependencies: []),
         .target(name: "LibSearch", dependencies: []),
+        .target(name: "LibTelemetry", dependencies: []),
         .target(name: "LibUI", dependencies: []),
 
         .target(name: "FeatureBrowser", dependencies: [

@@ -9,6 +9,15 @@ import ComposableArchitecture
 import SwiftUI
 import LibUI
 
+extension ToolbarPosition {
+    var paddingEdge: Edge.Set {
+        switch self {
+        case .top: return .bottom
+        case .bottom: return .top
+        }
+    }
+}
+
 public struct ToolbarView: View {
     let store: ToolbarStore
 
@@ -21,7 +30,7 @@ public struct ToolbarView: View {
             URLBar(store: store)
                 .onAppear { viewStore.send(.onAppear) }
                 .padding(.horizontal)
-                .padding(.bottom, 8)
+                .padding(viewStore.toolbarPosition.paddingEdge, 8)
                 .background(Material.thin)
         }
     }

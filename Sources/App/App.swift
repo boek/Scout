@@ -8,9 +8,12 @@
 import ComposableArchitecture
 
 import LibBiometrics
+import LibCrash
 import LibDefaults
 import LibEngine
+import LibExperiments
 import LibSearch
+import LibTelemetry
 
 import FeatureBrowser
 import FeatureLock
@@ -41,6 +44,7 @@ extension FeatureToolbar.ToolbarPosition {
 public struct AppState: Equatable {
     @BindableState var shouldShowOnboarding: Bool
     @BindableState var showSettings: Bool
+    var showBrowser: Bool
     var browser: BrowserState
     var lock: LockState
     var search: SearchState
@@ -72,9 +76,12 @@ public enum AppAction: BindableAction {
 }
 
 public struct AppEnvironment {
-    let biometrics: Biometrics
-    let defaults: Defaults
-    let engine: Engine
+    var biometrics: Biometrics
+    var crash: Crash
+    var defaults: Defaults
+    var engine: Engine
+    var experiments: Experiments
+    var telemetry: Telemetry
 }
 
 public let appReducerCore = AppReducer { state, action, environment in
@@ -94,6 +101,7 @@ public let appReducerCore = AppReducer { state, action, environment in
             let request = URLRequest(url: url)
             environment.engine.dispatch(.load(request))
         }
+        state.showBrowser = true
         return .none
     case .toolbar(.settingsTapped):
         state.showSettings = true
@@ -105,7 +113,10 @@ public let appReducerCore = AppReducer { state, action, environment in
         state.shouldShowOnboarding = false
         return .none
     }
-}.binding()
+}
+    .binding()
+    .telemetry()
+    .debugActions("🏪", actionFormat: .labelsOnly)
 
 public let appReducer = Reducer.combine(
     appReducerCore,
@@ -142,7 +153,7 @@ extension AppStore {
     public static var live: AppStore {
         .init(
             initialState: .initial,
-            reducer: appReducer.debug(),
+            reducer: appReducer,
             environment: .live
         )
     }
@@ -181,6 +192,7 @@ extension AppState {
         .init(
             shouldShowOnboarding: false,
             showSettings: false,
+            showBrowser: false,
             browser: .inert,
             lock: .initial,
             search: .initial,
@@ -193,8 +205,11 @@ extension AppEnvironment {
     static var live: AppEnvironment {
         .init(
             biometrics: .live,
+            crash: .live,
             defaults: .live,
-            engine: .system
+            engine: .system,
+            experiments: .live,
+            telemetry: .live
         )
     }
 

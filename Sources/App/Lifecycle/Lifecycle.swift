@@ -25,6 +25,8 @@ public enum LifecycleAction {
 public let lifecycleReducer = LifecycleReducer { state, action, env in
     switch action {
     case .initialize:
+        env.crash.initialize("Key")
+        env.experiments.initialize()
         state.shouldLock = env.biometrics.isEnabled() ? env.defaults.shouldLock : false
         state.shouldShowOnboarding = !env.defaults.userHasSeenOnboarding
         return .none
