@@ -107,6 +107,9 @@ public let appReducerCore = AppReducer { state, action, environment in
         state.showSettings = true
         return .none
     case .toolbar: return .none
+    case .settings(.binding):
+        state.search.anchorToBottom = state.toolbar.toolbarPosition == .bottom
+        return .none
     case .settings: return .none
     case .welcome(.startBrowsing):
         environment.defaults.userHasSeenOnboarding(true)
@@ -119,7 +122,6 @@ public let appReducerCore = AppReducer { state, action, environment in
     .debugActions("🏪", actionFormat: .labelsOnly)
 
 public let appReducer = Reducer.combine(
-    appReducerCore,
     lifecycleReducer.pullback(
         state: \.lifecycle,
         action: /AppAction.lifecycle,
@@ -146,7 +148,8 @@ public let appReducer = Reducer.combine(
     toolbarReducer.pullback(
         state: \.toolbar,
         action: /AppAction.toolbar,
-        environment: \.toolbar)
+        environment: \.toolbar),
+    appReducerCore
 )
 
 extension AppStore {

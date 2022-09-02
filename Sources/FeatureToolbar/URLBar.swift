@@ -54,7 +54,6 @@ struct URLBar: View {
                 .background(
                     RoundedRectangle(cornerRadius: 10)
                         .fill(theme.background)
-                        .shadow(radius: 4)
                 )
                 .safeAreaInset(edge: .leading) {
                     if viewStore.urlBarFocused {
@@ -63,8 +62,8 @@ struct URLBar: View {
                         }.transition(.scale.combined(with: .opacity))
                     }
                 }
-                .onChange(of: self.addressFocusState) {
-                    viewStore.send(.set(\.$urlBarFocused, $0), animation: .easeIn(duration: 0.25))
+                .onChange(of: self.addressFocusState) { newState in
+                    viewStore.send(.set(\.$urlBarFocused, newState), animation: newState ? .easeIn(duration: 0.25) : .none)
                 }
                 .onChange(of: viewStore.urlBarFocused) { self.addressFocusState = $0 }
                 .tint(theme.onBackground)

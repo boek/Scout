@@ -9,6 +9,19 @@ import ComposableArchitecture
 import SwiftUI
 import LibUI
 
+struct SearchList<Content: View>: View {
+    let flipped: Bool
+    @ViewBuilder var content: () -> Content
+
+    var body: some View {
+        if flipped {
+            FlippedList { content() }
+        } else {
+            List { content() }
+        }
+    }
+}
+
 public struct SearchView: View {
     let store: SearchStore
 
@@ -18,7 +31,7 @@ public struct SearchView: View {
 
     public var body: some View {
         WithViewStore(store) { viewStore in
-            List {
+            SearchList(flipped: viewStore.anchorToBottom) {
                 VStack(spacing: 16) {
                     Text("Show Search Suggestions?")
                         .font(.title2)

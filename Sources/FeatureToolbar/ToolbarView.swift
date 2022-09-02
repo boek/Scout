@@ -27,12 +27,13 @@ public struct ToolbarView: View {
     }
 
     public var body: some View {
-
+        WithViewStore(store) { ViewStore in
             switch hsc {
             case .regular: regularView
             case .compact: compactView
             default: compactView
             }
+        }
     }
 
     @ViewBuilder var compactView: some View {

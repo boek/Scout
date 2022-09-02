@@ -35,13 +35,10 @@ public struct AutocompleteTextfield: View {
                 autocompletionView
             }
             .onReceive(Just(text)) { newValue in
-                print(text, " | ", newValue, " | ", previousValue)
                 if shouldAutocomplete && newValue.count < previousValue.count && !newValue.isEmpty {
-                    print("a")
                     self.shouldAutocomplete = false
                     text = previousValue
                 } else if !shouldAutocomplete && newValue.count > previousValue.count {
-                    print("b")
                     self.shouldAutocomplete = true
                     previousValue = text
                 } else {

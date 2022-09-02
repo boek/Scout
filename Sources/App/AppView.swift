@@ -43,13 +43,14 @@ public struct AppView: View {
                 if viewStore.toolbar.urlBarFocused && !viewStore.toolbar.query.isEmpty {
                     SearchView(store: store.search)
                         .background(Material.bar)
+                        .zIndex(2)
                 }
             }
             .safeAreaInset(edge: viewStore.toolbar.toolbarPosition.edge, spacing: 0) {
                 ToolbarView(store: store.toolbar)
             }
             .safeAreaInset(edge: .bottom) {
-                if viewStore.showBrowser {
+                if viewStore.showBrowser && !viewStore.toolbar.urlBarFocused {
                     BottomToolbarView(store: store.toolbar)
                 }
             }

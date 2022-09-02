@@ -11,7 +11,8 @@ public typealias SearchStore = Store<SearchState, SearchAction>
 public typealias SearchReducer = Reducer<SearchState, SearchAction, SearchEnvironment>
 
 public struct SearchState: Equatable {
-    var searchSuggestionsEnabled: Bool
+    public var anchorToBottom: Bool
+    public var searchSuggestionsEnabled: Bool
 }
 
 public enum SearchAction {
@@ -30,6 +31,7 @@ public let searchReducer = SearchReducer { state, action, env in
 public extension SearchState {
     static var initial: SearchState {
         .init(
+            anchorToBottom: false,
             searchSuggestionsEnabled: false
         )
     }
