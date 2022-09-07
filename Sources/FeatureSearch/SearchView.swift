@@ -32,29 +32,31 @@ public struct SearchView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             SearchList(flipped: viewStore.anchorToBottom) {
-                VStack(spacing: 16) {
-                    Text("Show Search Suggestions?")
-                        .font(.title2)
-                        .bold()
-                    Text("To get suggestions Firefox Focus needs to send what you type in the address bar to the search engine")
-                        .font(.subheadline)
-
-                    HStack {
-                        Button("Yes") {}
-                            .buttonStyle(.bordered)
-                        Button("No") {}
-                            .buttonStyle(.bordered)
+                if viewStore.searchSuggestionState == .pending {
+                    Section {
+                        SearchSuggestionPrompt()
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(/*@START_MENU_TOKEN@*/.hidden/*@END_MENU_TOKEN@*/)
+                            .listRowInsets(.none)
                     }
                 }
-                .frame(minWidth: 0, maxWidth: .infinity)
-                .multilineTextAlignment(.center)
-                .listRowBackground(Color.clear)
-                .listRowSeparator(/*@START_MENU_TOKEN@*/.hidden/*@END_MENU_TOKEN@*/)
-                .listRowInsets(.none)
 
-                Section("Suggestions") {
-                    Label("Hello", systemImage: "magnifyingglass")
+                Section {
+                    Button(action: {}) {
+                        Label(viewStore.query, systemImage:
+                                "magnifyingglass")
+                        .id("searchResult")
+                        .transition(.identity)
+                    }
                 }
+
+//                if !viewStore.searchSuggestions.isEmpty {
+//                    Section("Suggestions") {
+//                        ForEach(viewStore.searchSuggestions) { suggestion in
+//                            Label(suggestion, systemImage: "magnifyingglass")
+//                        }
+//                    }
+//                }
             }
             .listRowInsets(.none)
             .scrollContentBackground(.hidden)

@@ -12,7 +12,7 @@ import LibCrash
 import LibDefaults
 import LibEngine
 import LibExperiments
-import LibSearch
+import LibSearchEngine
 import LibTelemetry
 
 import FeatureBrowser
@@ -102,6 +102,9 @@ public let appReducerCore = AppReducer { state, action, environment in
             environment.engine.dispatch(.load(request))
         }
         state.showBrowser = true
+    return .none
+    case .toolbar(.binding(\.$query)):
+        state.search.query = state.toolbar.query
         return .none
     case .toolbar(.settingsTapped):
         state.showSettings = true

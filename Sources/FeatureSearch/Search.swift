@@ -10,9 +10,15 @@ import ComposableArchitecture
 public typealias SearchStore = Store<SearchState, SearchAction>
 public typealias SearchReducer = Reducer<SearchState, SearchAction, SearchEnvironment>
 
+public enum SearchSuggestionState {
+    case pending, allowed, denied
+}
+
 public struct SearchState: Equatable {
     public var anchorToBottom: Bool
-    public var searchSuggestionsEnabled: Bool
+    public var searchSuggestionState: SearchSuggestionState
+    public var query: String
+    public var searchSuggestions: [String]
 }
 
 public enum SearchAction {
@@ -32,7 +38,9 @@ public extension SearchState {
     static var initial: SearchState {
         .init(
             anchorToBottom: false,
-            searchSuggestionsEnabled: false
+            searchSuggestionState: .pending,
+            query: "",
+            searchSuggestions: []
         )
     }
 }
