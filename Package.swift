@@ -20,7 +20,7 @@ let package = Package(
         .library(name: "LibEngine", targets: ["LibEngine"]),
         .library(name: "LibExperiments", targets: ["LibExperiments"]),
         .library(name: "LibDefaults", targets: ["LibDefaults"]),
-        .library(name: "LibSearchEngine", targets: ["LibSearchEngine"]),
+        .library(name: "LibSearchEngines", targets: ["LibSearchEngines"]),
         .library(name: "LibSearchSuggestions", targets: ["LibSearchSuggestions"]),
         .library(name: "LibTelemetry", targets: ["LibTelemetry"]),
         .library(name: "LibUI", targets: ["LibUI"]),
@@ -44,7 +44,7 @@ let package = Package(
             "LibDefaults",
             "LibEngine",
             "LibExperiments",
-            "LibSearchEngine",
+            "LibSearchEngines",
             "LibSearchSuggestions",
             "LibTelemetry",
             "FeatureBrowser",
@@ -57,16 +57,32 @@ let package = Package(
             .tca
         ]),
 
-        .target(name: "LibBiometrics", dependencies: []),
-        .target(name: "LibCrash", dependencies: []),
-        .target(name: "LibEngine", dependencies: []),
-        .target(name: "LibExperiments", dependencies: []),
-        .target(name: "LibDefaults", dependencies: []),
-        .target(name: "LibSearchEngine", dependencies: []),
-        .target(name: "LibSearchSuggestions", dependencies: ["LibSearchEngine"]),
-        .testTarget(name: "LibSearchSuggestionsTests", dependencies: ["LibSearchSuggestions"]),
-        .target(name: "LibTelemetry", dependencies: []),
-        .target(name: "LibUI", dependencies: []),
+        .target(name: "LibBiometrics"),
+        .target(name: "LibCrash"),
+        .target(name: "LibEngine"),
+        .target(name: "LibExperiments"),
+        .target(name: "LibDefaults"),
+        .target(
+            name: "LibSearchEngines",
+            resources: [
+                .copy("Resources/SearchPlugins"),
+                .process("Resources/SearchEngines.plist")
+            ]
+        ),
+        .testTarget(
+            name: "LibSearchEnginesTests",
+            dependencies: ["LibSearchEngines"]
+        ),
+        .target(
+            name: "LibSearchSuggestions",
+            dependencies: ["LibSearchEngines"]
+        ),
+        .testTarget(
+            name: "LibSearchSuggestionsTests",
+            dependencies: ["LibSearchSuggestions"]
+        ),
+        .target(name: "LibTelemetry"),
+        .target(name: "LibUI"),
 
         .target(name: "FeatureBrowser", dependencies: [
             "LibEngine",

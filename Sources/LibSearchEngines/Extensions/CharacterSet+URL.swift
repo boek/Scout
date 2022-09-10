@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension CharacterSet {
+extension CharacterSet {
     /// Returns the character set for characters allowed in a URL.
     static let urlAllowed = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/?#[]@!$&'()*+,;=%")
 

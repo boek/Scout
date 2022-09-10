@@ -5,7 +5,7 @@
 //  Created by Jeff Boek on 9/7/22.
 //
 
-import LibSearchEngine
+import LibSearchEngines
 import Foundation
 
 public typealias Query = String

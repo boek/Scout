@@ -31,8 +31,8 @@ public struct SearchEngineURLProvider: Equatable, Codable {
 public struct SearchEngine: Equatable, Codable {
     public var name: String
     public var image: Data?
-    public var query: SearchEngineURLProvider
-    public var suggestion: SearchEngineURLProvider?
+    public var queryTemplate: String
+    public var suggestTemplate: String?
 }
 
 public extension SearchEngine {
@@ -40,7 +40,8 @@ public extension SearchEngine {
         .init(
             name: "Awesearch",
             image: nil,
-            query: .init("https://awesearch.com/?suggestions={searchTerm}"),
-            suggestion: .init("https://awesearch.com/?q={searchTerm}"))
+            queryTemplate: "https://awesearch.com/?suggestions={searchTerm}",
+            suggestTemplate: "https://awesearch.com/?q={searchTerm}"
+        )
     }
 }
