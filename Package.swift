@@ -16,6 +16,7 @@ let package = Package(
         .library(name: "App", targets: ["App"]),
 
         .library(name: "LibBiometrics", targets: ["LibBiometrics"]),
+        .library(name: "LibContentBlocker", targets: ["LibContentBlocker"]),
         .library(name: "LibCrash", targets: ["LibCrash"]),
         .library(name: "LibEngine", targets: ["LibEngine"]),
         .library(name: "LibExperiments", targets: ["LibExperiments"]),
@@ -58,6 +59,7 @@ let package = Package(
         ]),
 
         .target(name: "LibBiometrics"),
+        .target(name: "LibContentBlocker"),
         .target(name: "LibCrash"),
         .target(name: "LibEngine"),
         .target(name: "LibExperiments"),
