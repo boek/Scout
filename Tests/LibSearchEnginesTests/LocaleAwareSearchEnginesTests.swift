@@ -12,6 +12,6 @@ final class LocaleAwareSearchEnginesTests: XCTestCase {
 
     func testExample() async throws {
         let engines = try await SearchEngines.localeAware().load()
-        print(engines)
+        XCTAssertEqual(engines.count, 5)
     }
 }
