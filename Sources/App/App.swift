@@ -12,7 +12,7 @@ import LibCrash
 import LibDefaults
 import LibEngine
 import LibExperiments
-import LibSearchEngine
+import LibSearchEngines
 import LibTelemetry
 
 import FeatureBrowser

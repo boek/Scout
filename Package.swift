@@ -67,7 +67,7 @@ let package = Package(
         .target(
             name: "LibSearchEngines",
             resources: [
-                .copy("Resources/SearchPlugins"),
+                .copy("Resources/Plugins"),
                 .process("Resources/SearchEngines.plist")
             ]
         ),

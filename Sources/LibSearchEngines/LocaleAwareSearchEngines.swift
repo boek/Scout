@@ -22,7 +22,6 @@ fileprivate struct SearchEngineLookup: Codable {
 
 public extension SearchEngines {
     static func localeAware(locale: String = Locale.preferredLanguages.first!) throws -> SearchEngines {
-        print(locale, Locale.preferredLanguages)
         return .init(
             load: {
                 var searchEngines: [SearchEngine] = []
@@ -40,7 +39,7 @@ public extension SearchEngines {
                     guard let lookupEngines = lookup(searchPath) else { continue }
                     for engineName in lookupEngines {
                         guard
-                            let engineUrl = Bundle.module.url(forResource: engineName, withExtension: "xml", subdirectory: "SearchPlugins/\(searchPath)")
+                            let engineUrl = Bundle.module.url(forResource: engineName, withExtension: "xml", subdirectory: "Plugins/\(searchPath)")
                         else { return [] }
 
                         let data = try Data(contentsOf: engineUrl)

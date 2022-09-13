@@ -46,12 +46,13 @@ public extension SearchSuggestionsClient {
     static var live: Self {
         .init(
             query: { searchEngine, query in
-                guard let urlProvider = searchEngine.suggestion else { throw NoSuggestionProvider() }
-                guard let url = urlProvider(query) else { throw BadURLError() }
-
-                let (data, _) = try await URLSession.shared.data(from: url)
-                let decoder = JSONDecoder()
-                return try decoder.decode(SearchSuggestions.self, from: data)
+                throw NoSuggestionProvider()
+//                guard let urlProvider = searchEngine.suggestion else { throw NoSuggestionProvider() }
+//                guard let url = urlProvider(query) else { throw BadURLError() }
+//
+//                let (data, _) = try await URLSession.shared.data(from: url)
+//                let decoder = JSONDecoder()
+//                return try decoder.decode(SearchSuggestions.self, from: data)
             }
         )
     }
