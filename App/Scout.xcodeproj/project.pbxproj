@@ -10,7 +10,8 @@
 		D50DB30D28B3045E00E4CED8 /* ScoutApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50DB30C28B3045E00E4CED8 /* ScoutApp.swift */; };
 		D50DB31128B3045F00E4CED8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D50DB31028B3045F00E4CED8 /* Assets.xcassets */; };
 		D50DB31E28B305A900E4CED8 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = D50DB31D28B305A900E4CED8 /* App */; };
-		D57A1BDD28CD366700D9A738 /* enabledDetector.json in Resources */ = {isa = PBXBuildFile; fileRef = D57A1BDC28CD366700D9A738 /* enabledDetector.json */; };
+		D5160C0128D23E18008025CC /* LibContentBlocker in Frameworks */ = {isa = PBXBuildFile; productRef = D5160C0028D23E18008025CC /* LibContentBlocker */; };
+		D57A1BDD28CD366700D9A738 /* enabled-detector.json in Resources */ = {isa = PBXBuildFile; fileRef = D57A1BDC28CD366700D9A738 /* enabled-detector.json */; };
 		D57A1BDF28CD366700D9A738 /* ContentBlockerRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57A1BDE28CD366700D9A738 /* ContentBlockerRequestHandler.swift */; };
 		D57A1BE328CD366700D9A738 /* ContentBlocker.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D57A1BDA28CD366700D9A738 /* ContentBlocker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -44,8 +45,10 @@
 		D50DB30C28B3045E00E4CED8 /* ScoutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoutApp.swift; sourceTree = "<group>"; };
 		D50DB31028B3045F00E4CED8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D50DB31B28B304EE00E4CED8 /* Scout */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Scout; path = ..; sourceTree = "<group>"; };
+		D5160BFE28D22EC0008025CC /* ContentBlocker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ContentBlocker.entitlements; sourceTree = "<group>"; };
+		D5160BFF28D22EDE008025CC /* Scout.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Scout.entitlements; sourceTree = "<group>"; };
 		D57A1BDA28CD366700D9A738 /* ContentBlocker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ContentBlocker.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		D57A1BDC28CD366700D9A738 /* enabledDetector.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = enabledDetector.json; sourceTree = "<group>"; };
+		D57A1BDC28CD366700D9A738 /* enabled-detector.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "enabled-detector.json"; sourceTree = "<group>"; };
 		D57A1BDE28CD366700D9A738 /* ContentBlockerRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentBlockerRequestHandler.swift; sourceTree = "<group>"; };
 		D57A1BE028CD366700D9A738 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5160C0128D23E18008025CC /* LibContentBlocker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +96,7 @@
 		D50DB30B28B3045E00E4CED8 /* Scout */ = {
 			isa = PBXGroup;
 			children = (
+				D5160BFF28D22EDE008025CC /* Scout.entitlements */,
 				D50DB31A28B3046400E4CED8 /* Resources */,
 				D50DB30C28B3045E00E4CED8 /* ScoutApp.swift */,
 			);
@@ -116,7 +121,8 @@
 		D57A1BDB28CD366700D9A738 /* ContentBlocker */ = {
 			isa = PBXGroup;
 			children = (
-				D57A1BDC28CD366700D9A738 /* enabledDetector.json */,
+				D5160BFE28D22EC0008025CC /* ContentBlocker.entitlements */,
+				D57A1BDC28CD366700D9A738 /* enabled-detector.json */,
 				D57A1BDE28CD366700D9A738 /* ContentBlockerRequestHandler.swift */,
 				D57A1BE028CD366700D9A738 /* Info.plist */,
 			);
@@ -161,6 +167,9 @@
 			dependencies = (
 			);
 			name = ContentBlocker;
+			packageProductDependencies = (
+				D5160C0028D23E18008025CC /* LibContentBlocker */,
+			);
 			productName = ContentBlocker;
 			productReference = D57A1BDA28CD366700D9A738 /* ContentBlocker.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -215,7 +224,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D57A1BDD28CD366700D9A738 /* enabledDetector.json in Resources */,
+				D57A1BDD28CD366700D9A738 /* enabled-detector.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +378,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Scout/Scout.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
@@ -400,6 +410,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Scout/Scout.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
@@ -429,6 +440,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = ContentBlocker/ContentBlocker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z88RVG5KD9;
@@ -455,6 +467,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = ContentBlocker/ContentBlocker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z88RVG5KD9;
@@ -513,6 +526,10 @@
 		D50DB31D28B305A900E4CED8 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = App;
+		};
+		D5160C0028D23E18008025CC /* LibContentBlocker */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LibContentBlocker;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

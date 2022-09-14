@@ -5,6 +5,8 @@
 //  Created by Jeff Boek on 8/21/22.
 //
 
+import Foundation
+
 import ComposableArchitecture
 
 import LibBiometrics

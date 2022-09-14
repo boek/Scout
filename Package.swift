@@ -11,7 +11,7 @@ extension Target.Dependency {
 
 let package = Package(
     name: "Scout",
-    platforms: [.iOS(.v16)],
+    platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
         .library(name: "App", targets: ["App"]),
 
@@ -36,7 +36,7 @@ let package = Package(
         .library(name: "FeatureWelcome", targets: ["FeatureWelcome"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.39.0")
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.40.0")
     ],
     targets: [
         .target(name: "App", dependencies: [
@@ -59,7 +59,16 @@ let package = Package(
         ]),
 
         .target(name: "LibBiometrics"),
-        .target(name: "LibContentBlocker"),
+        .target(
+            name: "LibContentBlocker",
+            resources: [
+                .process("Resources/Blocklists")
+            ]
+        ),
+        .testTarget(
+            name: "LibContentBlockerTests",
+            dependencies: ["LibContentBlocker"]
+        ),
         .target(name: "LibCrash"),
         .target(name: "LibEngine"),
         .target(name: "LibExperiments"),
