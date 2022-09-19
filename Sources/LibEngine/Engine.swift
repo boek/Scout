@@ -1,5 +1,6 @@
 import Combine
 import WebKit
+import SwiftUI
 
 public struct EngineViewFactory: Equatable {
     public var id: String
@@ -24,7 +25,9 @@ public struct EngineViewFactory: Equatable {
 
 public enum EngineScrollState {
     case inert
+    case startScrolling(CGPoint)
     case scrolling(start: CGPoint, current: CGPoint)
+    case stoppedScrolling
 }
 
 public struct NavigationState {
@@ -39,6 +42,9 @@ public enum EngineAction {
 }
 
 public enum EngineEvent {
+    case startScrolling(CGPoint)
+    case scrolled(CGPoint)
+    case endScrolling(CGPoint)
     case updateEstimatedProgress(Double)
     case didStartProvisionalNavigation
     case didStartNavigation
@@ -48,6 +54,7 @@ public enum EngineEvent {
     case didReload
     case urlDidChange
     case pullToRefresh
+    case themeColorChanged(Color)
 }
 
 public struct Engine {
@@ -110,6 +117,14 @@ class SystemWebViewController: NSObject {
             .sink { [weak self] in self?._events.send(.updateEstimatedProgress($0)) }
             .store(in: &subscriptions)
 
+        view.publisher(for: \.themeColor)
+            .map { Color($0 ?? .blue) }
+            .sink { [weak self] in
+                print("theme color", $0)
+                self?._events.send(.themeColorChanged($0))
+            }
+            .store(in: &subscriptions)
+
         return view
     }()
 
@@ -138,15 +153,15 @@ extension SystemWebViewController: WKUIDelegate {
 
 extension SystemWebViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset)
+        _events.send(.scrolled(scrollView.contentOffset))
     }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-
+        _events.send(.startScrolling(scrollView.contentOffset))
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-
+        _events.send(.endScrolling(scrollView.contentOffset))
     }
 
     func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {

@@ -36,6 +36,7 @@ public extension BrowserState {
 
 public enum BrowserAction {
     case start
+    case engine(EngineEvent)
 }
 
 // MARK: Reducer
@@ -43,6 +44,13 @@ public let browserReducer = BrowserReducer { state, action, environment in
     switch action {
     case .start:
         state = .loaded(environment.engine.viewFactory)
+        return .run { send in
+            for await event in environment.engine.events.values {
+                await send(.engine(event))
+            }
+        }
+    case .engine(let event):
+        print("Got event", event)
         return .none
     }
 }
