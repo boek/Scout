@@ -19,6 +19,7 @@ public struct LockState: Equatable {
     public var isEnabled: Bool
     public var biometricType: BiometricType
     public var status: Status
+    
 }
 
 public enum LockAction {
@@ -63,6 +64,14 @@ public let lockReducer = LockReducer { state, action, env in
 public extension LockState {
     static var initial: LockState {
         .init(isEnabled: false, biometricType: .none, status: .unlocked)
+    }
+
+    static var testDisabled: LockState {
+        .init(isEnabled: false, biometricType: .faceID, status: .unlocked)
+    }
+
+    static var testEnabledAndLocked: LockState {
+        .init(isEnabled: true, biometricType: .touchID, status: .locked)
     }
 }
 

@@ -108,6 +108,10 @@ let package = Package(
             "LibUI",
             .tca
         ]),
+        .testTarget(
+            name: "FeatureLockTests",
+            dependencies: ["FeatureLock"]
+        ),
         .target(name: "FeatureSearch", dependencies: [
             "LibUI",
             .tca

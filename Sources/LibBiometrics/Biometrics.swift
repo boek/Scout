@@ -51,4 +51,12 @@ public extension Biometrics {
             }
         )
     }
+
+    static var test: Biometrics {
+        return Biometrics(
+            isEnabled: { true },
+            biometricType: .touchID,
+            authenticate: { true }
+        )
+    }
 }
