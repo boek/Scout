@@ -22,7 +22,8 @@ public struct SearchState: Equatable {
 }
 
 public enum SearchAction {
-
+    case allowSearchSuggestions
+    case denySearchSuggestions
 }
 
 public struct SearchEnvironment {

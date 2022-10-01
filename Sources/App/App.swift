@@ -126,6 +126,8 @@ public let appReducerCore = AppReducer { state, action, environment in
     case .settings(.binding):
         state.search.anchorToBottom = state.toolbar.toolbarPosition == .bottom
         return .none
+    case .search(let action):
+        return .none
     case .settings: return .none
     case .welcome(.startBrowsing):
         environment.defaults.userHasSeenOnboarding(true)

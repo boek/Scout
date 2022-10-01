@@ -34,7 +34,10 @@ public struct SearchView: View {
             SearchList(flipped: viewStore.anchorToBottom) {
                 if viewStore.searchSuggestionState == .pending {
                     Section {
-                        SearchSuggestionPrompt()
+                        SearchSuggestionPrompt(
+                            onYes: { viewStore.send(.allowSearchSuggestions) },
+                            onNo: { viewStore.send(.denySearchSuggestions) }
+                        )
                             .listRowBackground(Color.clear)
                             .listRowSeparator(/*@START_MENU_TOKEN@*/.hidden/*@END_MENU_TOKEN@*/)
                             .listRowInsets(.none)

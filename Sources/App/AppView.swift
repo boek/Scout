@@ -42,7 +42,9 @@ public struct AppView: View {
                 }
                 if viewStore.toolbar.urlBarFocused && !viewStore.toolbar.query.isEmpty {
                     SearchView(store: store.search)
-                        .background(Material.bar)
+                        .background(
+                            Color.black.opacity(0.4)
+                        )
                         .zIndex(2)
                 }
             }

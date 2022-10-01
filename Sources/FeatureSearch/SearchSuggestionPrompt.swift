@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct SearchSuggestionPrompt: View {
+    let onYes: () -> Void
+    let onNo: () -> Void
+
     var body: some View {
         VStack(spacing: 16) {
             Text("Show Search Suggestions?")
@@ -17,9 +20,9 @@ struct SearchSuggestionPrompt: View {
                 .font(.subheadline)
 
             HStack {
-                Button("Yes") {}
+                Button("Yes", action: onYes)
                     .buttonStyle(.bordered)
-                Button("No") {}
+                Button("No", action: onNo)
                     .buttonStyle(.bordered)
             }
         }
@@ -30,6 +33,9 @@ struct SearchSuggestionPrompt: View {
 
 struct SearchSuggestionPrompt_Previews: PreviewProvider {
     static var previews: some View {
-        SearchSuggestionPrompt()
+        SearchSuggestionPrompt(
+            onYes: {},
+            onNo: {}
+        )
     }
 }

@@ -62,7 +62,7 @@ let package = Package(
         .target(
             name: "LibContentBlocker",
             resources: [
-                .process("Resources/Blocklists")
+                .process("./Resources/Blocklists")
             ]
         ),
         .testTarget(
@@ -76,8 +76,8 @@ let package = Package(
         .target(
             name: "LibSearchEngines",
             resources: [
-                .copy("Resources/Plugins"),
-                .process("Resources/SearchEngines.plist")
+                .copy("./Resources/Plugins"),
+                .process("./Resources/SearchEngines.plist")
             ]
         ),
         .testTarget(
