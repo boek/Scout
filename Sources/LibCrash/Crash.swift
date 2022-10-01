@@ -20,7 +20,7 @@ public struct Crash {
 public extension Crash {
     static var live: Crash {
         .init(
-            initialize: { print("💥: Initializing crash reporter with key: \($0)") }
+            initialize: { print("💥 Initializing crash reporter with key: \($0)") }
         )
     }
 }

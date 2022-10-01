@@ -38,6 +38,6 @@ public struct Telemetry {
 
 public extension Telemetry {
     static var live: Self {
-        .init(track: { print("🪵: ", $0) })
+        .init(track: { print("🪵", $0) })
     }
 }

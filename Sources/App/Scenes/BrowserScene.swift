@@ -24,12 +24,9 @@ public struct BrowserScene: Scene {
             AppView(store: store)
         }
         .onChange(of: scenePhase) { phase in
-            switch phase {
-            case .active: viewStore.send(.active)
-            case .inactive: viewStore.send(.inactive)
-            case .background: viewStore.send(.background)
-            @unknown default: fatalError()
-            }
+            viewStore.send(phase.action)
         }
     }
 }
+
+

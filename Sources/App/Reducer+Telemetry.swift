@@ -25,11 +25,16 @@ extension LifecycleAction {
 
 extension AppAction {
     var event: TelemetryEvent? {
-        if case .lifecycle(let lifecycleAction) = self {
-            return lifecycleAction.event
+        switch self {
+        case .binding: return nil
+        case .lifecycle(let lifecycleAction): return lifecycleAction.event
+        case .browser: return nil
+        case .lock: return nil
+        case .welcome: return nil
+        case .search: return nil
+        case .toolbar: return nil
+        case .settings: return nil
         }
-
-        return nil
     }
 }
 
@@ -39,6 +44,7 @@ extension AppReducer {
             if let event = action.event {
                 env.telemetry.track(event)
             }
+
             return self.run(&state, action, env)
         }
     }

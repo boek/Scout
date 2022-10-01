@@ -5,6 +5,7 @@
 //  Created by Jeff Boek on 8/22/22.
 //
 
+import SwiftUI
 import ComposableArchitecture
 
 public typealias ToolbarStore   = Store<ToolbarState, ToolbarAction>
@@ -16,20 +17,24 @@ public enum ToolbarPosition {
 
 public struct ToolbarState: Equatable {
     public var isCollapsed: Bool
+    public var backgroundColor: Color
     @BindableState public var query: String
     @BindableState public var urlBarFocused: Bool
     public var autocompletion: String?
     public var toolbarPosition: ToolbarPosition
+    public var progress: Double?
 }
 
 public extension ToolbarState {
     static var initial: ToolbarState {
         .init(
             isCollapsed: false,
+            backgroundColor: .clear,
             query: "",
             urlBarFocused: false,
             autocompletion: nil,
-            toolbarPosition: .top
+            toolbarPosition: .top,
+            progress: nil
         )
     }
 }

@@ -42,6 +42,18 @@ public struct ToolbarView: View {
                 .onAppear { viewStore.send(.onAppear) }
                 .padding(.horizontal)
                 .padding(viewStore.toolbarPosition.paddingEdge, 8)
+                .background(viewStore.backgroundColor)
+                .overlay(alignment: .bottom) {
+                    if let progress = viewStore.progress {
+                        ProgressView(progress: progress)
+                            .transition(
+                                .asymmetric(
+                                    insertion: .move(edge: .leading),
+                                    removal: .move(edge: .trailing)
+                                )
+                            )
+                    }
+                }
         }
     }
 
@@ -78,6 +90,7 @@ public struct ToolbarView: View {
             .onAppear { viewStore.send(.onAppear) }
             .padding(.horizontal)
             .padding(viewStore.toolbarPosition.paddingEdge, 8)
+            .background(viewStore.backgroundColor)
         }
     }
 }

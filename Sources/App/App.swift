@@ -24,6 +24,8 @@ import FeatureSettings
 import FeatureToolbar
 import FeatureWelcome
 
+import RegexBuilder
+
 public typealias AppStore   = Store<AppState, AppAction>
 public typealias AppReducer = Reducer<AppState, AppAction, AppEnvironment>
 
@@ -95,6 +97,15 @@ public let appReducerCore = AppReducer { state, action, environment in
             await send (.lock(.lock))
         }
     case .lifecycle: return .none
+    case .browser(.engine(.themeColorChanged(let color))):
+        state.toolbar.backgroundColor = color
+        return .none
+    case .browser(.engine(.updateEstimatedProgress(let progress))):
+        state.toolbar.progress = progress
+        return .none
+    case .browser(.engine(.didFinishNavigation)):
+        state.toolbar.progress = nil
+        return .none
     case .browser: return .none
     case .lock: return .none
     case .toolbar(.onSubmit):
@@ -124,7 +135,7 @@ public let appReducerCore = AppReducer { state, action, environment in
 }
     .binding()
     .telemetry()
-    .debugActions("🏪", actionFormat: .labelsOnly)
+    .debugActions(actionFormat: .labelsOnly, environment: \.debug)
 
 public let appReducer = Reducer.combine(
     lifecycleReducer.pullback(
@@ -231,6 +242,26 @@ extension AppEnvironment {
 
     var toolbar: ToolbarEnvironment {
         .init()
+    }
+
+    var debug: DebugEnvironment {
+        let regex = Regex {
+            OneOrMore {
+                ChoiceOf {
+                    "\n"
+                    "  "
+                }
+            }
+        }
+
+        return .init(
+            printer: {
+                print(
+                    "🏪",
+                    $0.replacing(regex, with: " ")
+                )
+            }
+        )
     }
 }
 

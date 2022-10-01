@@ -12,9 +12,9 @@ import LibContentBlocker
 extension NSExtensionContext: @unchecked Sendable {}
 
 class ContentBlockerRequestHandler: NSObject, NSExtensionRequestHandling {
-    func beginRequest(with context: NSExtensionContext) {
-        let contentBlocker = ContentBlocker.live
+    let contentBlocker = ContentBlocker.live
 
+    func beginRequest(with context: NSExtensionContext) {
         do {
             let url = try contentBlocker.combinedListURL()
 

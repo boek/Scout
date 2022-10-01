@@ -20,7 +20,7 @@ public struct Experiments {
 public extension Experiments {
     static var live: Experiments {
         .init(
-            initialize: { print("💥: Experiments initialized") }
+            initialize: { print("📊 Experiments initialized") }
         )
     }
 }
