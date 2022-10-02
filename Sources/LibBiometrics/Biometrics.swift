@@ -40,10 +40,15 @@ extension BiometricType {
     }
 }
 public extension Biometrics {
-    static var live: Biometrics {
-        let context = LAContext()
+    static func live(context: LAContext = LAContext()) -> Biometrics {
         return Biometrics(
-            isEnabled: { context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) },
+            isEnabled: {
+                var error: NSError?
+                let result = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
+                guard let error = error else { return result }
+                print("Biometrics received error", error)
+                return false
+            },
             biometricType: .init(context.biometryType),
             authenticate: {
                 context.localizedReason = "We need this"

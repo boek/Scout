@@ -26,8 +26,8 @@ final class LockTests: XCTestCase {
             environment: .init(biometrics: .test)
         )
 
-        await store.send(.attemptUnlock)
-        await store.receive(.unlocked) {
+        await store.send(.authenticate)
+        await store.receive(.authenticationSuccess) {
             $0.status = .unlocked
         }
     }

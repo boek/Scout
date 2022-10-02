@@ -59,6 +59,7 @@ let package = Package(
         ]),
 
         .target(name: "LibBiometrics"),
+        .testTarget(name: "LibBiometricsTests", dependencies: ["LibBiometrics"]),
         .target(
             name: "LibContentBlocker",
             resources: [
@@ -76,8 +77,8 @@ let package = Package(
         .target(
             name: "LibSearchEngines",
             resources: [
-                .copy("./Resources/Plugins"),
-                .process("./Resources/SearchEngines.plist")
+                .copy("./Resources/Plugins/"),
+                .process("Resources/SearchEngines.plist")
             ]
         ),
         .testTarget(

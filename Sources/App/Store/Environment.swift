@@ -36,7 +36,7 @@ public struct AppEnvironment {
 extension AppEnvironment {
     static var live: AppEnvironment {
         .init(
-            biometrics: .live,
+            biometrics: .live(),
             crash: .live,
             defaults: .live,
             engine: .system,
