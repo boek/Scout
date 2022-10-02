@@ -20,6 +20,17 @@ public typealias AppReducer = Reducer<AppState, AppAction, AppEnvironment>
 public let appReducerCore = AppReducer { state, action, environment in
     switch action {
     case .binding: return .none
+    case .lifecycle(.initialize):
+        state.lock.isEnabled = environment.biometrics.isEnabled() ? environment.defaults.shouldLock : false
+        state.shouldShowOnboarding = !environment.defaults.userHasSeenOnboarding
+        environment.crash.initialize("Key")
+        environment.experiments.initialize()
+        return .run { send in
+            let searchEngines = try await environment.searchEngines.load()
+            await send(.searchEnginesLoaded(searchEngines))
+        } catch: { _, _ in
+
+        }
     case .lifecycle(.active): return .none
     case .lifecycle(.inactive):
         return .run { send in
@@ -62,6 +73,10 @@ public let appReducerCore = AppReducer { state, action, environment in
         environment.defaults.userHasSeenOnboarding(true)
         state.shouldShowOnboarding = false
         return .none
+    case .searchEnginesLoaded(let engines):
+        state.search.searchEngines = engines
+        state.search.selectedSearchEngine = engines.first
+        return .none
     }
 }
     .binding()
@@ -69,11 +84,6 @@ public let appReducerCore = AppReducer { state, action, environment in
     .debugActions(actionFormat: .labelsOnly, environment: \.debug)
 
 public let appReducer = AppReducer.combine(
-    lifecycleReducer.pullback(
-        state: \.lifecycle,
-        action: /AppAction.lifecycle,
-        environment: \.lifecycle
-    ),
     browserReducer.pullback(
         state: \.browser,
         action: /AppAction.browser,

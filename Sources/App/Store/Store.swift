@@ -26,10 +26,6 @@ extension AppStore {
         )
     }
 
-    var lifecycle: LifecycleStore {
-        scope(state: \.lifecycle, action: AppAction.lifecycle)
-    }
-
     var browser: BrowserStore {
         scope(state: \.browser, action: AppAction.browser)
     }

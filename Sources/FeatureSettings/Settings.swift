@@ -28,7 +28,7 @@ public struct SettingsState: Equatable {
     }
 }
 
-public enum SettingsAction: BindableAction {
+public enum SettingsAction: BindableAction, Equatable {
     case binding(BindingAction<SettingsState>)
 }
 

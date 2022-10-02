@@ -39,7 +39,7 @@ public extension ToolbarState {
     }
 }
 
-public enum ToolbarAction: BindableAction {
+public enum ToolbarAction: BindableAction, Equatable {
     case binding(BindingAction<ToolbarState>)
     case onAppear
     case onSubmit

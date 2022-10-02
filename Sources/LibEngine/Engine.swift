@@ -41,7 +41,7 @@ public enum EngineAction {
     case goForward
 }
 
-public enum EngineEvent {
+public enum EngineEvent: Equatable {
     case startScrolling(CGPoint)
     case scrolled(CGPoint)
     case endScrolling(CGPoint)

@@ -16,3 +16,11 @@ public struct SearchEngines {
         self.load = load
     }
 }
+
+public extension SearchEngines {
+    static var test: SearchEngines {
+        .init(
+            load: { [.test] }
+        )
+    }
+}

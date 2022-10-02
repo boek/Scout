@@ -34,6 +34,7 @@ extension AppAction {
         case .search: return nil
         case .toolbar: return nil
         case .settings: return nil
+        case .searchEnginesLoaded: return nil
         }
     }
 }

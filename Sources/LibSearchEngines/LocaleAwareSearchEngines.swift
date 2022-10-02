@@ -21,7 +21,9 @@ fileprivate struct SearchEngineLookup: Codable {
 }
 
 public extension SearchEngines {
-    static func localeAware(locale: String = Locale.preferredLanguages.first!) throws -> SearchEngines {
+    static func localeAware(
+        locale: String = Locale.preferredLanguages.first!
+    ) -> SearchEngines {
         return .init(
             load: {
                 var searchEngines: [SearchEngine] = []

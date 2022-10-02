@@ -7,6 +7,8 @@
 
 import ComposableArchitecture
 
+import LibSearchEngines
+
 public typealias SearchStore = Store<SearchState, SearchAction>
 public typealias SearchReducer = Reducer<SearchState, SearchAction, SearchEnvironment>
 
@@ -19,9 +21,11 @@ public struct SearchState: Equatable {
     public var searchSuggestionState: SearchSuggestionState
     public var query: String
     public var searchSuggestions: [String]
+    public var selectedSearchEngine: SearchEngine?
+    public var searchEngines: [SearchEngine]
 }
 
-public enum SearchAction {
+public enum SearchAction: Equatable {
     case allowSearchSuggestions
     case denySearchSuggestions
 }
@@ -41,7 +45,9 @@ public extension SearchState {
             anchorToBottom: false,
             searchSuggestionState: .pending,
             query: "",
-            searchSuggestions: []
+            searchSuggestions: [],
+            selectedSearchEngine: nil,
+            searchEngines: []
         )
     }
 }

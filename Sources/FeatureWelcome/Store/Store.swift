@@ -9,6 +9,6 @@ import ComposableArchitecture
 
 public typealias WelcomeStore = Store<Void, WelcomeAction>
 
-public enum WelcomeAction {
+public enum WelcomeAction: Equatable {
     case startBrowsing
 }

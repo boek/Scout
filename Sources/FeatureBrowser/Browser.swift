@@ -34,7 +34,7 @@ public extension BrowserState {
 
 // MARK: Action
 
-public enum BrowserAction {
+public enum BrowserAction: Equatable {
     case start
     case engine(EngineEvent)
 }

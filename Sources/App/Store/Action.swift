@@ -8,6 +8,8 @@
 import Foundation
 import ComposableArchitecture
 
+import LibSearchEngines
+
 import FeatureBrowser
 import FeatureLock
 import FeatureWelcome
@@ -15,8 +17,14 @@ import FeatureSearch
 import FeatureToolbar
 import FeatureSettings
 
+public enum LifecycleAction: Equatable {
+    case initialize
+    case active
+    case inactive
+    case background
+}
 
-public enum AppAction: BindableAction {
+public enum AppAction: BindableAction, Equatable {
     case binding(BindingAction<AppState>)
     case lifecycle(LifecycleAction)
     case browser(BrowserAction)
@@ -25,4 +33,5 @@ public enum AppAction: BindableAction {
     case search(SearchAction)
     case toolbar(ToolbarAction)
     case settings(SettingsAction)
+    case searchEnginesLoaded([SearchEngine])
 }

@@ -15,6 +15,7 @@ import LibCrash
 import LibDefaults
 import LibEngine
 import LibExperiments
+import LibSearchEngines
 import LibTelemetry
 
 import FeatureBrowser
@@ -30,6 +31,7 @@ public struct AppEnvironment {
     var defaults: Defaults
     var engine: Engine
     var experiments: Experiments
+    var searchEngines: SearchEngines
     var telemetry: Telemetry
 }
 
@@ -41,6 +43,7 @@ extension AppEnvironment {
             defaults: .live(),
             engine: .system,
             experiments: .live,
+            searchEngines: .localeAware(),
             telemetry: .live
         )
     }
@@ -52,6 +55,7 @@ extension AppEnvironment {
             defaults: .testAlwaysFalse,
             engine: .test,
             experiments: .test,
+            searchEngines: .test,
             telemetry: .test
         )
     }

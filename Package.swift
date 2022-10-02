@@ -118,6 +118,7 @@ let package = Package(
             dependencies: ["FeatureLock"]
         ),
         .target(name: "FeatureSearch", dependencies: [
+            "LibSearchEngines",
             "LibUI",
             .tca
         ]),

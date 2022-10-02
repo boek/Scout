@@ -43,6 +43,7 @@ extension FeatureToolbar.ToolbarPosition {
 public struct AppState: Equatable {
     @BindableState var shouldShowOnboarding: Bool
     @BindableState var showSettings: Bool
+    var searchEngine: SearchEngine?
     var showBrowser: Bool
     var browser: BrowserState
     var lock: LockState
@@ -68,26 +69,12 @@ extension AppState {
         .init(
             shouldShowOnboarding: false,
             showSettings: false,
+            searchEngine: nil,
             showBrowser: false,
             browser: .inert,
             lock: .initial,
             search: .initial,
             toolbar: .initial
         )
-    }
-}
-
-extension AppState {
-    var lifecycle: LifecycleState {
-        get {
-            .init(
-                shouldLock: lock.isEnabled,
-                shouldShowOnboarding: shouldShowOnboarding
-            )
-        }
-        set {
-            lock.isEnabled = newValue.shouldLock
-            shouldShowOnboarding = newValue.shouldShowOnboarding
-        }
     }
 }

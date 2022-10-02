@@ -22,7 +22,7 @@ public struct LockState: Equatable {
     
 }
 
-public enum LockAction {
+public enum LockAction: Equatable {
     case attemptLock
     case authenticate
     case authenticationSuccess

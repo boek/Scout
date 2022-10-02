@@ -15,7 +15,7 @@ public struct BrowserScene: Scene {
 
     public init(store: AppStore) {
         self.store = store
-        viewStore = ViewStore(store.lifecycle.stateless)
+        viewStore = ViewStore(store.stateless.scope(state: {}, action: AppAction.lifecycle))
         viewStore.send(.initialize)
     }
 
@@ -23,9 +23,7 @@ public struct BrowserScene: Scene {
         WindowGroup {
             AppView(store: store)
         }
-        .onChange(of: scenePhase) { phase in
-            viewStore.send(phase.action)
-        }
+        .onChange(of: scenePhase) { viewStore.send($0.action) }
     }
 }
 
