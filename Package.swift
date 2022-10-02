@@ -57,7 +57,7 @@ let package = Package(
             "FeatureWelcome",
             .tca
         ]),
-
+        .testTarget(name: "AppTests", dependencies: ["App"]),
         .target(name: "LibBiometrics"),
         .testTarget(name: "LibBiometricsTests", dependencies: ["LibBiometrics"]),
         .target(

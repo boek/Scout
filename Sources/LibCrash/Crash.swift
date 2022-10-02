@@ -23,4 +23,10 @@ public extension Crash {
             initialize: { print("💥 Initializing crash reporter with key: \($0)") }
         )
     }
+
+    static var test: Crash {
+        .init(
+            initialize: { print("💥 Initializing crash reporter with key: \($0)") }
+        )
+    }
 }

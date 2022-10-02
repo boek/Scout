@@ -45,6 +45,17 @@ extension AppEnvironment {
         )
     }
 
+    static var test: AppEnvironment {
+        .init(
+            biometrics: .test,
+            crash: .test,
+            defaults: .testAlwaysFalse,
+            engine: .test,
+            experiments: .test,
+            telemetry: .test
+        )
+    }
+
     var browser: BrowserEnvironment {
         .init(engine: engine)
     }

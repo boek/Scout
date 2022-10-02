@@ -23,4 +23,10 @@ public extension Experiments {
             initialize: { print("📊 Experiments initialized") }
         )
     }
+
+    static var test: Experiments {
+        .init(
+            initialize: { print("📊 Experiments initialized") }
+        )
+    }
 }
