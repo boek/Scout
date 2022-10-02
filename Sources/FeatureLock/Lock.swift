@@ -13,7 +13,7 @@ public typealias LockReducer = Reducer<LockState, LockAction, LockEnvironment>
 
 public struct LockState: Equatable {
     public enum Status {
-        case locked, unlocked, canceled
+        case locked, unlocked, canceled, unlockFailed
     }
 
     public var isEnabled: Bool
@@ -23,7 +23,11 @@ public struct LockState: Equatable {
 }
 
 public enum LockAction {
-    case attemptUnlock, lock, cancel, unlocked
+    case attemptLock
+    case authenticate
+    case authenticationSuccess
+    case authenticationFailed
+    case authenticationCancelled
 }
 
 public struct LockEnvironment {
@@ -38,24 +42,23 @@ public struct LockEnvironment {
 
 public let lockReducer = LockReducer { state, action, env in
     switch action {
-    case .attemptUnlock:
-        if state.status == .locked {
-            if state.isEnabled {
-                return .task {
-                    let result = try await env.biometrics.authenticate()
-                    return .unlocked
-                } catch: { error in
-                    return .unlocked
-                }
-            }
+    case .attemptLock:
+        if state.isEnabled {
+            state.status = .locked
         }
-        state.status = .unlocked
+
         return .none
-    case .lock:
-        state.status = .locked
+    case .authenticate:
+        guard state.isEnabled && state.status == .locked else { return .none }
+        return .task {
+            let result = try await env.biometrics.authenticate()
+            return .authenticationSuccess
+        } catch: { _ in return .authenticationFailed }
+    case .authenticationFailed:
+        state.status = .unlockFailed
         return .none
-    case .cancel: return .none
-    case .unlocked:
+    case .authenticationCancelled: return .none
+    case .authenticationSuccess:
         state.status = .unlocked
         return .none
     }

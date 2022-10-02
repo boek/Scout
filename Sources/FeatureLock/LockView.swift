@@ -18,9 +18,9 @@ public struct LockView: View {
 
     public var body: some View {
         WithViewStore(store) { viewStore in
-            if viewStore.status == .locked {
+            if viewStore.status != .unlocked {
                 BackgroundView()
-                    .onAppear { viewStore.send(.attemptUnlock) }
+                    .onAppear { viewStore.send(.authenticate) }
             }
         }
     }

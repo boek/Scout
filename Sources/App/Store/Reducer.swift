@@ -23,7 +23,7 @@ public let appReducerCore = AppReducer { state, action, environment in
     case .lifecycle(.active): return .none
     case .lifecycle(.inactive):
         return .run { send in
-            await send (.lock(.lock))
+            await send (.lock(.attemptLock))
         }
     case .lifecycle: return .none
     case .browser(.engine(.themeColorChanged(let color))):
