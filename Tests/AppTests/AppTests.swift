@@ -10,7 +10,7 @@ import ComposableArchitecture
 @testable import App
 
 final class AppTests: XCTestCase {
-    func testSearchEnginesAreInitializedOnAppStart() {
+    func test() {
         let store = TestStore(
             initialState: AppState.initial,
             reducer: appReducer,

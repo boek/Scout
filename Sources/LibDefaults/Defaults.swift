@@ -21,9 +21,9 @@ public extension Defaults {
         )
     }
 
-    static var live: Defaults {
-        let defaults = UserDefaults.standard
-
+    static func live(
+        defaults: UserDefaults = .standard
+    ) -> Defaults {
         return Defaults(
             bool: defaults.bool(forKey:),
             setBool: defaults.set

@@ -58,6 +58,8 @@ let package = Package(
             .tca
         ]),
         .testTarget(name: "AppTests", dependencies: ["App"]),
+
+        //MARK: - Libraries
         .target(name: "LibBiometrics"),
         .testTarget(name: "LibBiometricsTests", dependencies: ["LibBiometrics"]),
         .target(
@@ -74,6 +76,7 @@ let package = Package(
         .target(name: "LibEngine"),
         .target(name: "LibExperiments"),
         .target(name: "LibDefaults"),
+        .testTarget(name: "LibDefaultsTests", dependencies: ["LibDefaults"]),
         .target(
             name: "LibSearchEngines",
             resources: [
@@ -96,6 +99,7 @@ let package = Package(
         .target(name: "LibTelemetry"),
         .target(name: "LibUI"),
 
+        //MARK: - Features
         .target(name: "FeatureBrowser", dependencies: [
             "LibEngine",
             .tca

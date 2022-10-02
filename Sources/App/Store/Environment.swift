@@ -38,7 +38,7 @@ extension AppEnvironment {
         .init(
             biometrics: .live(),
             crash: .live,
-            defaults: .live,
+            defaults: .live(),
             engine: .system,
             experiments: .live,
             telemetry: .live
@@ -56,12 +56,22 @@ extension AppEnvironment {
         )
     }
 
+    var lifecycle: Self { self }
+
     var browser: BrowserEnvironment {
         .init(engine: engine)
     }
 
     var lock: LockEnvironment {
         .init(biometrics: biometrics)
+    }
+
+    var search: SearchEnvironment {
+        .init()
+    }
+
+    var settings: SettingsEnvironment {
+        .init()
     }
 
     var toolbar: ToolbarEnvironment {

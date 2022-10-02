@@ -68,11 +68,11 @@ public let appReducerCore = AppReducer { state, action, environment in
     .telemetry()
     .debugActions(actionFormat: .labelsOnly, environment: \.debug)
 
-public let appReducer = Reducer.combine(
+public let appReducer = AppReducer.combine(
     lifecycleReducer.pullback(
         state: \.lifecycle,
         action: /AppAction.lifecycle,
-        environment: { $0 }
+        environment: \.lifecycle
     ),
     browserReducer.pullback(
         state: \.browser,
@@ -87,11 +87,11 @@ public let appReducer = Reducer.combine(
     searchReducer.pullback(
         state: \.search,
         action: /AppAction.search,
-        environment: { _ in .init() }),
+        environment: \.search),
     settingsReducer.pullback(
         state: \.settings,
         action: /AppAction.settings,
-        environment: { _ in .init() }),
+        environment: \.settings),
     toolbarReducer.pullback(
         state: \.toolbar,
         action: /AppAction.toolbar,
