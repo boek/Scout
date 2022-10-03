@@ -57,8 +57,8 @@ public let appReducerCore = AppReducer { state, action, environment in
         state.showBrowser = true
     return .none
     case .toolbar(.binding(\.$query)):
-        state.search.query = state.toolbar.query
-        return .none
+        let query = state.toolbar.query
+        return .task { .search(.perform(query)) }
     case .toolbar(.settingsTapped):
         state.showSettings = true
         return .none

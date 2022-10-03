@@ -16,6 +16,7 @@ import LibDefaults
 import LibEngine
 import LibExperiments
 import LibSearchEngines
+import LibSearchSuggestions
 import LibTelemetry
 
 import FeatureBrowser
@@ -32,6 +33,7 @@ public struct AppEnvironment {
     var engine: Engine
     var experiments: Experiments
     var searchEngines: SearchEngines
+    var searchSuggestionsClient: SearchSuggestionsClient
     var telemetry: Telemetry
 }
 
@@ -44,6 +46,7 @@ extension AppEnvironment {
             engine: .system,
             experiments: .live,
             searchEngines: .localeAware(),
+            searchSuggestionsClient: .live,
             telemetry: .live
         )
     }
@@ -56,6 +59,7 @@ extension AppEnvironment {
             engine: .test,
             experiments: .test,
             searchEngines: .test,
+            searchSuggestionsClient: .test,
             telemetry: .test
         )
     }
@@ -71,7 +75,9 @@ extension AppEnvironment {
     }
 
     var search: SearchEnvironment {
-        .init()
+        .init(
+            searchSuggestionsClient: searchSuggestionsClient
+        )
     }
 
     var settings: SettingsEnvironment {

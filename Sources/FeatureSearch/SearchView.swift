@@ -53,13 +53,13 @@ public struct SearchView: View {
                     }
                 }
 
-//                if !viewStore.searchSuggestions.isEmpty {
-//                    Section("Suggestions") {
-//                        ForEach(viewStore.searchSuggestions) { suggestion in
-//                            Label(suggestion, systemImage: "magnifyingglass")
-//                        }
-//                    }
-//                }
+                if let results = viewStore.searchSuggestions?.results {
+                    Section("Suggestions") {
+                        ForEach(results, id: \.suggestion) { result in
+                            Label(result.suggestion, systemImage: "magnifyingglass")
+                        }
+                    }
+                }
             }
             .listRowInsets(.none)
             .scrollContentBackground(.hidden)

@@ -119,9 +119,11 @@ let package = Package(
         ),
         .target(name: "FeatureSearch", dependencies: [
             "LibSearchEngines",
+            "LibSearchSuggestions",
             "LibUI",
             .tca
         ]),
+        .testTarget(name: "FeatureSearchTests", dependencies: ["FeatureSearch"]),
         .target(name: "FeatureSettings", dependencies: [
             "LibUI",
             .tca

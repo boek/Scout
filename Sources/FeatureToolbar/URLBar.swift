@@ -10,6 +10,18 @@ import SwiftUI
 
 import LibUI
 
+extension Binding where Value: Equatable {
+  func removeDuplicates() -> Self {
+    .init(
+      get: { self.wrappedValue },
+      set: { newValue, transaction in
+        guard newValue != self.wrappedValue else { return }
+        self.transaction(transaction).wrappedValue = newValue
+      }
+    )
+  }
+}
+
 
 struct URLBar: View {
     @Environment(\.theme) var theme
@@ -20,7 +32,7 @@ struct URLBar: View {
         WithViewStore(store) { viewStore in
             AutocompleteTextfield(
                 placeholder: "Search or enter address",
-                text: viewStore.binding(\.$query).animation(.easeOut(duration: 0.2)),
+                text: viewStore.binding(\.$query).removeDuplicates(), // For some reason TextFields fire set multiple times.
                 autocompleteValue: nil
             )
                 .autocapitalization(.none)

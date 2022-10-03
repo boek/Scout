@@ -12,7 +12,7 @@ public typealias Query = String
 public struct NoSuggestionProvider: Error {}
 public struct BadURLError: Error {}
 
-public struct SearchSuggestion: Codable {
+public struct SearchSuggestion: Codable, Equatable {
     public var suggestion: String
 
     public init(
@@ -27,9 +27,17 @@ public struct SearchSuggestion: Codable {
     }
 }
 
-public struct SearchSuggestions: Codable {
+public struct SearchSuggestions: Codable, Equatable {
     public var query: Query
     public var results: [SearchSuggestion]
+
+    public init(
+        query: Query,
+        results: [SearchSuggestion]
+    ) {
+        self.query = query
+        self.results = results
+    }
 
     public init(from decoder: Decoder) throws {
         var container = try decoder.unkeyedContainer()
@@ -39,20 +47,33 @@ public struct SearchSuggestions: Codable {
 }
 
 public struct SearchSuggestionsClient {
-    var query: (SearchEngine, Query) async throws -> SearchSuggestions
+    public var query: (SearchEngine, Query) async throws -> SearchSuggestions
+
+    public init(
+        query: @escaping (SearchEngine, Query) async throws -> SearchSuggestions
+    ) {
+        self.query = query
+    }
 }
 
 public extension SearchSuggestionsClient {
     static var live: Self {
         .init(
             query: { searchEngine, query in
-                throw NoSuggestionProvider()
-//                guard let urlProvider = searchEngine.suggestion else { throw NoSuggestionProvider() }
-//                guard let url = urlProvider(query) else { throw BadURLError() }
-//
-//                let (data, _) = try await URLSession.shared.data(from: url)
-//                let decoder = JSONDecoder()
-//                return try decoder.decode(SearchSuggestions.self, from: data)
+                guard let template = searchEngine.suggestTemplate else { throw NoSuggestionProvider() }
+                guard let url = SearchEngineURLProvider(template)(query) else { throw BadURLError() }
+
+                let (data, _) = try await URLSession.shared.data(from: url)
+                let decoder = JSONDecoder()
+                return try decoder.decode(SearchSuggestions.self, from: data)
+            }
+        )
+    }
+
+    static var test: Self {
+        .init(
+            query: { engine, query in
+                return SearchSuggestions(query: query, results: [])
             }
         )
     }
