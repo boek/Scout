@@ -6,11 +6,25 @@
 //
 
 import Foundation
+
+import FeatureSearch
+
 import LibDefaults
 
 extension Defaults {
     private static var userHasSeenOnboardingKey = "userHasSeenOnboardingKey"
     private static var shouldLockKey = "shouldLockKey"
+    private static var searchSuggestionsKey = "searchSuggestionsKey"
+
+    var searchSuggestionState: SearchSuggestionState {
+        data(Self.searchSuggestionsKey)
+            .flatMap { try? JSONDecoder().decode(SearchSuggestionState.self, from: $0) } ?? .pending
+    }
+    func searchSuggestionState(_ state: SearchSuggestionState) {
+        guard let data = try? JSONEncoder().encode(state) else { return }
+        setData(data, Self.searchSuggestionsKey)
+    }
+
 
     var userHasSeenOnboarding: Bool { self.bool(Self.userHasSeenOnboardingKey) }
     func userHasSeenOnboarding(_ bool: Bool) { self.setBool(bool, Self.userHasSeenOnboardingKey) }

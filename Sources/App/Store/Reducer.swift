@@ -21,6 +21,7 @@ public let appReducerCore = AppReducer { state, action, environment in
     switch action {
     case .binding: return .none
     case .lifecycle(.initialize):
+        state.search.searchSuggestionState = environment.defaults.searchSuggestionState
         state.lock.isEnabled = environment.biometrics.isEnabled() ? environment.defaults.shouldLock : false
         state.shouldShowOnboarding = !environment.defaults.userHasSeenOnboarding
         environment.crash.initialize("Key")
@@ -65,6 +66,9 @@ public let appReducerCore = AppReducer { state, action, environment in
     case .toolbar: return .none
     case .settings(.binding):
         state.search.anchorToBottom = state.toolbar.toolbarPosition == .bottom
+        return .none
+    case .search(.allowSearchSuggestions), .search(.denySearchSuggestions):
+        environment.defaults.searchSuggestionState(state.search.searchSuggestionState)
         return .none
     case .search(let action):
         return .none

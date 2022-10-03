@@ -13,7 +13,7 @@ import LibSearchSuggestions
 public typealias SearchStore = Store<SearchState, SearchAction>
 public typealias SearchReducer = Reducer<SearchState, SearchAction, SearchEnvironment>
 
-public enum SearchSuggestionState {
+public enum SearchSuggestionState: Codable {
     case pending, allowed, denied
 }
 

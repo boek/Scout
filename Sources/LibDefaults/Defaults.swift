@@ -11,13 +11,17 @@ public typealias Key = String
 public struct Defaults {
     public var bool: (Key) -> Bool
     public var setBool: (Bool, Key) -> Void
+    public var data: (Key) -> Data?
+    public var setData: (Data, Key) -> Void
 }
 
 public extension Defaults {
     static var testAlwaysFalse: Defaults {
         Defaults(
             bool: { _ in false },
-            setBool: { _, _ in }
+            setBool: { _, _ in },
+            data: { _ in nil },
+            setData: { _, _ in }
         )
     }
 
@@ -26,7 +30,9 @@ public extension Defaults {
     ) -> Defaults {
         return Defaults(
             bool: defaults.bool(forKey:),
-            setBool: defaults.set
+            setBool: defaults.set,
+            data: defaults.data(forKey:),
+            setData: defaults.set
         )
     }
 }
