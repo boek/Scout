@@ -24,7 +24,7 @@ public extension Defaults {
             setBool: { _, _ in },
             data: { _ in nil },
             setData: { _, _ in },
-            int: { _ in -1 },
+            int: { _ in 0 },
             setInt: { _, _ in }
         )
     }

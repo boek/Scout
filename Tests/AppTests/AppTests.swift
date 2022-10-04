@@ -18,6 +18,13 @@ final class AppTests: XCTestCase {
             environment: .test
         )
 
+        let setIntExpectation = expectation(description: "We set the launch count + 1")
+        setIntExpectation.expectedFulfillmentCount = 1
+        store.environment.defaults.setInt = { n, k in
+            setIntExpectation.fulfill()
+            XCTAssertEqual(n, 1)
+        }
+
         let crashInitialzied = expectation(description: "LibCrash initialized")
         store.environment.crash.initialize = { _ in crashInitialzied.fulfill() }
 
