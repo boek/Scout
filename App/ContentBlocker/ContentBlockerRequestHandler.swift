@@ -12,7 +12,7 @@ import LibContentBlocker
 extension NSExtensionContext: @unchecked Sendable {}
 
 class ContentBlockerRequestHandler: NSObject, NSExtensionRequestHandling {
-    let contentBlocker = ContentBlocker.live
+    let contentBlocker = ContentBlocker.live(bundleIdentifier: Bundle.main.bundleIdentifier!)
 
     func beginRequest(with context: NSExtensionContext) {
         do {

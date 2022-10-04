@@ -15,6 +15,14 @@ extension Defaults {
     private static var userHasSeenOnboardingKey = "userHasSeenOnboardingKey"
     private static var shouldLockKey = "shouldLockKey"
     private static var searchSuggestionsKey = "searchSuggestionsKey"
+    private static var launchCountKey = "launchCountKey"
+
+    var launchCount: Int {
+        int(Self.launchCountKey)
+    }
+    func increaseLaunchCount() {
+        setInt(launchCount + 1, Self.launchCountKey)
+    }
 
     var searchSuggestionState: SearchSuggestionState {
         data(Self.searchSuggestionsKey)

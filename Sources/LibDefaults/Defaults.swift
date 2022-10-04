@@ -13,6 +13,8 @@ public struct Defaults {
     public var setBool: (Bool, Key) -> Void
     public var data: (Key) -> Data?
     public var setData: (Data, Key) -> Void
+    public var int: (Key) -> Int
+    public var setInt: (Int, Key) -> Void
 }
 
 public extension Defaults {
@@ -21,7 +23,9 @@ public extension Defaults {
             bool: { _ in false },
             setBool: { _, _ in },
             data: { _ in nil },
-            setData: { _, _ in }
+            setData: { _, _ in },
+            int: { _ in -1 },
+            setInt: { _, _ in }
         )
     }
 
@@ -32,7 +36,9 @@ public extension Defaults {
             bool: defaults.bool(forKey:),
             setBool: defaults.set,
             data: defaults.data(forKey:),
-            setData: defaults.set
+            setData: defaults.set,
+            int: defaults.integer(forKey:),
+            setInt: defaults.set
         )
     }
 }

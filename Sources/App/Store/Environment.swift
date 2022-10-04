@@ -11,6 +11,7 @@ import RegexBuilder
 import ComposableArchitecture
 
 import LibBiometrics
+import LibContentBlocker
 import LibCrash
 import LibDefaults
 import LibEngine
@@ -28,6 +29,7 @@ import FeatureWelcome
 
 public struct AppEnvironment {
     var biometrics: Biometrics
+    var contentBlocker: ContentBlocker
     var crash: Crash
     var defaults: Defaults
     var engine: Engine
@@ -41,6 +43,7 @@ extension AppEnvironment {
     static var live: AppEnvironment {
         .init(
             biometrics: .live(),
+            contentBlocker: .live(bundleIdentifier: "us.boek.Scout.ContentBlocker"),
             crash: .live,
             defaults: .live(),
             engine: .system,
@@ -54,6 +57,7 @@ extension AppEnvironment {
     static var test: AppEnvironment {
         .init(
             biometrics: .test,
+            contentBlocker: .test,
             crash: .test,
             defaults: .testAlwaysFalse,
             engine: .test,

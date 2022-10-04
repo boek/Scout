@@ -49,6 +49,8 @@ public struct Rule: Codable {
     public var trigger: Trigger
 }
 
+public typealias BundleIdentifier = String
+
 public struct ContentBlocker {
     public var combinedListURL: () throws -> URL
     public var createCombinedList: ([BlockList]) async -> URL
@@ -68,11 +70,11 @@ public struct ContentBlocker {
 public struct InvalidURL: Error {}
 
 public extension ContentBlocker {
-    static var live: ContentBlocker {
+    static func live(bundleIdentifier: BundleIdentifier) -> ContentBlocker {
         let combinedListFilePath = FileManager
             .default
             .containerURL(forSecurityApplicationGroupIdentifier: "group.us.boek.scout")?
-            .appending(path: "combined-lsit.json")
+            .appending(path: "/combined-lsit.json")
 
         return .init(
             combinedListURL: {
@@ -84,7 +86,7 @@ public extension ContentBlocker {
             },
             reload: {
                 try await withCheckedThrowingContinuation { continuation in
-                    SFContentBlockerManager.reloadContentBlocker(withIdentifier: "us.boek.scout") { error in
+                    SFContentBlockerManager.reloadContentBlocker(withIdentifier: bundleIdentifier) { error in
                         if let error = error {
                             continuation.resume(throwing: error)
                             return
@@ -93,6 +95,15 @@ public extension ContentBlocker {
                     }
                 }
             }
+        )
+    }
+
+    static var test: ContentBlocker {
+        let combinedListURL = FileManager.default.temporaryDirectory.appending(path: "/combined-lsit.json")
+        return .init(
+            combinedListURL: { combinedListURL },
+            createCombinedList: { _ in combinedListURL },
+            reload: { }
         )
     }
 }

@@ -15,6 +15,7 @@ let package = Package(
     products: [
         .library(name: "App", targets: ["App"]),
 
+        .library(name: "LibAppStore", targets: ["LibAppStore"]),
         .library(name: "LibBiometrics", targets: ["LibBiometrics"]),
         .library(name: "LibContentBlocker", targets: ["LibContentBlocker"]),
         .library(name: "LibCrash", targets: ["LibCrash"]),
@@ -41,6 +42,7 @@ let package = Package(
     targets: [
         .target(name: "App", dependencies: [
             "LibBiometrics",
+            "LibContentBlocker",
             "LibCrash",
             "LibDefaults",
             "LibEngine",
@@ -60,6 +62,8 @@ let package = Package(
         .testTarget(name: "AppTests", dependencies: ["App"]),
 
         //MARK: - Libraries
+        .target(name: "LibAppStore"),
+        .testTarget(name: "LibAppStoreTests", dependencies: ["LibAppStore"]),
         .target(name: "LibBiometrics"),
         .testTarget(name: "LibBiometricsTests", dependencies: ["LibBiometrics"]),
         .target(

@@ -26,7 +26,10 @@ public let appReducerCore = AppReducer { state, action, environment in
         state.shouldShowOnboarding = !environment.defaults.userHasSeenOnboarding
         environment.crash.initialize("Key")
         environment.experiments.initialize()
+        environment.defaults.increaseLaunchCount()
+
         return .run { send in
+            try await environment.contentBlocker.reload()
             let searchEngines = try await environment.searchEngines.load()
             await send(.searchEnginesLoaded(searchEngines))
         } catch: { _, _ in
