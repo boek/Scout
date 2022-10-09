@@ -26,7 +26,7 @@ public let appReducerCore = AppReducer { state, action, environment in
         state.shouldShowOnboarding = !environment.defaults.userHasSeenOnboarding
         environment.crash.initialize("Key")
         environment.experiments.initialize()
-        environment.defaults.increaseLaunchCount()
+        environment.defaults.increaseLaunchCount(by: 1)
 
         return .run { send in
             try await environment.contentBlocker.reload()
@@ -65,6 +65,39 @@ public let appReducerCore = AppReducer { state, action, environment in
         return .task { .search(.perform(query)) }
     case .toolbar(.settingsTapped):
         state.showSettings = true
+        return .none
+    case .toolbar(.trashTapped):
+        guard environment.defaults.launchThreshold != 0 else {
+            environment.defaults.setLaunchThreshold(15)
+            return .none
+        }
+
+        guard environment.defaults.launchCount <= environment.defaults.launchThreshold else {
+            return .none
+        }
+
+        let daysSinceLastRequest = environment.defaults.lastReviewDate
+            .flatMap { lastReviewDate in
+                let now = environment.date()
+                return Calendar.current.dateComponents([.day], from: lastReviewDate, to: now).day
+            }
+
+        if let daysSinceLastRequest = daysSinceLastRequest,
+           daysSinceLastRequest < 90
+        {
+            return .none
+        }
+
+        environment.defaults.setLastReviewDate(environment.date())
+
+        switch environment.defaults.launchThreshold {
+        case 14: environment.defaults.setLaunchThreshold(64)
+        case 64: environment.defaults.setLaunchThreshold(115)
+        default: break
+        }
+
+        environment.appStore.requestReview()
+
         return .none
     case .toolbar: return .none
     case .settings(.binding):

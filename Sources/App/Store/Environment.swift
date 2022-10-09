@@ -10,6 +10,7 @@ import RegexBuilder
 
 import ComposableArchitecture
 
+import LibAppStore
 import LibBiometrics
 import LibContentBlocker
 import LibCrash
@@ -28,9 +29,11 @@ import FeatureToolbar
 import FeatureWelcome
 
 public struct AppEnvironment {
+    var appStore: LibAppStore.AppStore
     var biometrics: Biometrics
     var contentBlocker: ContentBlocker
     var crash: Crash
+    var date: () -> Date
     var defaults: Defaults
     var engine: Engine
     var experiments: Experiments
@@ -42,9 +45,11 @@ public struct AppEnvironment {
 extension AppEnvironment {
     static var live: AppEnvironment {
         .init(
+            appStore: .live,
             biometrics: .live(),
             contentBlocker: .live(bundleIdentifier: "us.boek.Scout.ContentBlocker"),
             crash: .live,
+            date: { Date() },
             defaults: .live(),
             engine: .system,
             experiments: .live,
@@ -56,9 +61,11 @@ extension AppEnvironment {
 
     static var test: AppEnvironment {
         .init(
+            appStore: .test,
             biometrics: .test,
             contentBlocker: .test,
             crash: .test,
+            date: { .distantPast },
             defaults: .testAlwaysFalse,
             engine: .test,
             experiments: .test,

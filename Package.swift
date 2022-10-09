@@ -41,6 +41,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "App", dependencies: [
+            "LibAppStore",
             "LibBiometrics",
             "LibContentBlocker",
             "LibCrash",

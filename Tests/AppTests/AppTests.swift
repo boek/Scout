@@ -8,9 +8,15 @@
 import XCTest
 import ComposableArchitecture
 @testable import App
+import LibDefaults
 
 @MainActor
 final class AppTests: XCTestCase {
+
+    override func tearDown() {
+        UserDefaults.standard.removePersistentDomain(forName: #file)
+    }
+
     func testInitializing() async {
         let store = TestStore(
             initialState: AppState.initial,
@@ -42,4 +48,22 @@ final class AppTests: XCTestCase {
 
         waitForExpectations(timeout: 1)
     }
+
+    func testAppStoreReviewPrompt() async {
+        let store = TestStore(
+            initialState: AppState.initial,
+            reducer: appReducer,
+            environment: .test
+        )
+
+        store.environment.defaults = .live(defaults: .init(suiteName: #file)!)
+        let reviewExpectation = expectation(description: "We requeast a review from the user")
+        store.environment.appStore.requestReview = { reviewExpectation.fulfill() }
+
+        store.environment.defaults.increaseLaunchCount(by: 15)
+        await store.send(.toolbar(.trashTapped))
+        await store.send(.toolbar(.trashTapped))
+        waitForExpectations(timeout: 1)
+    }
 }
+

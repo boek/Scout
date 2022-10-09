@@ -43,6 +43,7 @@ public enum ToolbarAction: BindableAction, Equatable {
     case binding(BindingAction<ToolbarState>)
     case onAppear
     case onSubmit
+    case trashTapped
     case clearTapped
     case reloadTapped
     case shieldTapped
@@ -67,6 +68,8 @@ public let toolbarReducer = ToolbarReducer { state, action, environment in
         state.query = ""
         return .none
     case .reloadTapped:
+        return .none
+    case .trashTapped:
         return .none
     case .shieldTapped:
         return .none

@@ -12,16 +12,33 @@ import FeatureSearch
 import LibDefaults
 
 extension Defaults {
-    private static var userHasSeenOnboardingKey = "userHasSeenOnboardingKey"
-    private static var shouldLockKey = "shouldLockKey"
-    private static var searchSuggestionsKey = "searchSuggestionsKey"
-    private static var launchCountKey = "launchCountKey"
+    private static let userHasSeenOnboardingKey = "userHasSeenOnboardingKey"
+    private static let shouldLockKey = "shouldLockKey"
+    private static let searchSuggestionsKey = "searchSuggestionsKey"
+    private static let launchCountKey = "launchCountKey"
+    private static let launchThreshold = "launchThresholdKey"
+    private static let lastReviewDateKey = "lastReviewDateKey"
+
+    var lastReviewDate: Date? {
+        guard let data = data(Self.lastReviewDateKey) else { return nil }
+        return try? JSONDecoder().decode(Date.self, from: data)
+    }
+    func setLastReviewDate(_ date: Date) {
+        guard let data = try? JSONEncoder().encode(date) else { return }
+        setData(data, Self.searchSuggestionsKey)
+    }
+
+    var launchThreshold: Int { int(Self.launchThreshold) }
+    func setLaunchThreshold(_ threshold: Int) {
+        setInt(threshold, Self.launchThreshold)
+    }
 
     var launchCount: Int {
         int(Self.launchCountKey)
     }
-    func increaseLaunchCount() {
-        setInt(launchCount + 1, Self.launchCountKey)
+
+    func increaseLaunchCount(by: Int) {
+        setInt(launchCount + by, Self.launchCountKey)
     }
 
     var searchSuggestionState: SearchSuggestionState {

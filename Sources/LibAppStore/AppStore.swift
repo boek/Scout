@@ -18,7 +18,7 @@ public struct AppStore {
 }
 
 public extension AppStore {
-    static func live() -> AppStore {
+    static var live: AppStore {
         return .init(
             requestReview: {
                 guard let scene = UIApplication.shared.connectedScenes.first(where: \.isForeground) as? UIWindowScene
